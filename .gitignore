@@ -1,0 +1,36 @@
+# Xcode
+## User settings & personal workspace state
+xcuserdata/
+*.xcuserdatad/
+*.xcuserstate
+
+## Build & Derived Data
+build/
+DerivedData/
+*.moved-aside
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## OS & System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+## Swift Package Manager
+.build/
+Packages/
+Package.pins
+Package.resolved
+
+## Fastlane / CocoaPods / Carthage
+Pods/
+Carthage/Build/
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
