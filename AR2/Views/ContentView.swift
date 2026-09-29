@@ -8,18 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var isARActive = false
     @State private var gateOpen = true
     @State private var gateScale: CGFloat = 1.0
+    // Mencegah transisi ganda jika tombol ditekan berkali-kali selama animasi gerbang
+    @State private var isTransitioning = false
+    @State private var showCameraPermission = false
 
     private var isARActiveBinding: Binding<Bool> {
         Binding<Bool>(
-            get: { self.isARActive },
+            get: { isARActive },
             set: { newValue in
-                if newValue == true && !self.isARActive {
-                    self.closeGateAndEnterAR()
-                } else if newValue == false && self.isARActive {
-                    self.closeGateAndReturn()
+                guard !isTransitioning, newValue != isARActive else { return }
+                Task {
+                    if newValue {
+                        await closeGateAndEnterAR()
+                    } else {
+                        await closeGateAndReturn()
+                    }
                 }
             }
         )
@@ -50,51 +57,64 @@ struct ContentView: View {
             }
         }
         .statusBarHidden()
+        .sheet(isPresented: $showCameraPermission) {
+            CameraPermissionView()
+        }
     }
-    
+
     // Fungsi Masuk Alam Gaib
-    func closeGateAndEnterAR() {
+    private func closeGateAndEnterAR() async {
+        isTransitioning = true
+        defer { isTransitioning = false }
+
+        // Tanpa izin kamera, layar AR hanya akan hitam
+        guard await CameraPermission.request() else {
+            showCameraPermission = true
+            return
+        }
+
         // 1. Gerbang Tertutup (BLAAM!)
         withAnimation(.easeIn(duration: 0.8)) {
             gateOpen = false
-            gateScale = 1.05 // Sedikit efek benturan
+            gateScale = reduceMotion ? 1.0 : 1.05 // Sedikit efek benturan
         }
-        
+
         // 2. Transisi Alam saat gelap total
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
-            isARActive = true // Pindah ke halaman AR
-            
-            // 3. Gerbang Terbuka dengan gaya tersedot (Zoom)
-            withAnimation(.timingCurve(0.3, 0.0, 0.1, 1.0, duration: 2.0)) {
-                gateOpen = true
-                gateScale = 1.4 // Membesar seolah masuk menembus gerbang
-            }
-            
-            // Kembalikan scale secara tersembunyi
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.1) {
-                gateScale = 1.0
-            }
+        try? await Task.sleep(for: .seconds(0.9))
+        isARActive = true // Pindah ke halaman AR
+
+        // 3. Gerbang Terbuka dengan gaya tersedot (Zoom)
+        withAnimation(.timingCurve(0.3, 0.0, 0.1, 1.0, duration: 2.0)) {
+            gateOpen = true
+            gateScale = reduceMotion ? 1.0 : 1.4 // Membesar seolah masuk menembus gerbang
         }
+
+        // Kembalikan scale secara tersembunyi
+        try? await Task.sleep(for: .seconds(2.1))
+        gateScale = 1.0
     }
-    
+
     // Fungsi Kembali ke Dunia Nyata
-    func closeGateAndReturn() {
+    private func closeGateAndReturn() async {
+        isTransitioning = true
+        defer { isTransitioning = false }
+
         // 1. Gerbang Menutup Perlahan
         withAnimation(.easeInOut(duration: 1.0)) {
             gateOpen = false
-            gateScale = 1.05
+            gateScale = reduceMotion ? 1.0 : 1.05
         }
-        
+
         // 2. Transisi Alam
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
-            isARActive = false
-            
-            // 3. Gerbang Terbuka Kembali Normal
-            withAnimation(.timingCurve(0.4, 0.0, 0.2, 1.0, duration: 1.5)) {
-                gateOpen = true
-                gateScale = 1.0
-            }
+        try? await Task.sleep(for: .seconds(1.1))
+        isARActive = false
+
+        // 3. Gerbang Terbuka Kembali Normal
+        withAnimation(.timingCurve(0.4, 0.0, 0.2, 1.0, duration: 1.5)) {
+            gateOpen = true
+            gateScale = 1.0
         }
+        try? await Task.sleep(for: .seconds(1.5))
     }
 }
 
