@@ -8,6 +8,11 @@ import SwiftUI
 struct GhostARView: View {
     @Binding var isARActive: Bool
     @State private var model = GhostARModel(mode: .preferred)
+    @State private var capturedPhoto: CapturedPhoto?
+    @State private var isCapturing = false
+    @State private var flashOpacity = 0.0
+    @State private var showSettings = false
+    @AppStorage(AppSettings.hapticsEnabled) private var hapticsEnabled = true
 
     var body: some View {
         ZStack {
@@ -40,15 +45,56 @@ struct GhostARView: View {
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
+
+            // Kilatan putih saat mengambil foto
+            Color.white
+                .ignoresSafeArea()
+                .opacity(flashOpacity)
+                .allowsHitTesting(false)
         }
         .animation(.spring(), value: model.showGhostInfo)
         .animation(.easeInOut(duration: 0.2), value: model.clapProgress > 0)
+        .sensoryFeedback(trigger: model.punchCount) { _, _ in
+            hapticsEnabled ? .impact(weight: .heavy) : nil
+        }
+        .sensoryFeedback(trigger: model.transformCount) { _, _ in
+            hapticsEnabled ? .success : nil
+        }
+        .sheet(item: $capturedPhoto) { photo in
+            PhotoPreviewView(photo: photo)
+        }
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+        }
+    }
+
+    private func capturePhoto() async {
+        guard !isCapturing else { return }
+        isCapturing = true
+        defer { isCapturing = false }
+
+        SoundManager.shared.playShutter()
+        guard let snapshot = await model.snapshot() else { return }
+
+        flashOpacity = 0.9
+        withAnimation(.easeOut(duration: 0.4)) {
+            flashOpacity = 0
+        }
+        capturedPhoto = CapturedPhoto(image: PhotoComposer.compose(snapshot))
     }
 
     // --- Tombol-tombol ---
     private var controls: some View {
         VStack(spacing: 16) {
-            HStack(spacing: 24) {
+            HStack(spacing: 20) {
+                Button {
+                    showSettings = true
+                } label: {
+                    Image(systemName: "gearshape.fill")
+                }
+                .buttonStyle(HauntedCircleButtonStyle())
+                .accessibilityLabel(Text("Settings"))
+
                 Button {
                     model.showGhostInfo.toggle()
                 } label: {
@@ -65,6 +111,15 @@ struct GhostARView: View {
                 .buttonStyle(HauntedCircleButtonStyle())
                 .disabled(!model.canTransform)
                 .accessibilityLabel(Text("Transform the ghost"))
+
+                Button {
+                    Task { await capturePhoto() }
+                } label: {
+                    Image(systemName: "camera.fill")
+                }
+                .buttonStyle(HauntedCircleButtonStyle())
+                .disabled(model.status != .running || isCapturing)
+                .accessibilityLabel(Text("Take a photo"))
             }
 
             Button("BACK TO THE REAL WORLD") {

@@ -15,6 +15,7 @@ struct ContentView: View {
     // Mencegah transisi ganda jika tombol ditekan berkali-kali selama animasi gerbang
     @State private var isTransitioning = false
     @State private var showCameraPermission = false
+    @AppStorage(AppSettings.hasSeenOnboarding) private var hasSeenOnboarding = false
 
     private var isARActiveBinding: Binding<Bool> {
         Binding<Bool>(
@@ -59,6 +60,17 @@ struct ContentView: View {
         .statusBarHidden()
         .sheet(isPresented: $showCameraPermission) {
             CameraPermissionView()
+        }
+        // Tutorial saat pertama kali dibuka, atau saat dipilih lagi dari Pengaturan
+        .fullScreenCover(isPresented: Binding(
+            get: { !hasSeenOnboarding },
+            set: { isPresented in
+                if !isPresented { hasSeenOnboarding = true }
+            }
+        )) {
+            OnboardingView(mode: .preferred) {
+                hasSeenOnboarding = true
+            }
         }
     }
 

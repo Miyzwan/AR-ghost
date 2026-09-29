@@ -18,6 +18,8 @@ struct AR2App: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                // Tema seram selalu gelap, termasuk sheet dan kontrol sistem
+                .preferredColorScheme(.dark)
         }
         .onChange(of: scenePhase) { _, phase in
             SoundManager.shared.handleScenePhase(phase)

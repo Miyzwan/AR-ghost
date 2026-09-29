@@ -1,0 +1,30 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "new", "value" : "AR Ghost" } },
+        "id" : { "stringUnit" : { "state" : "translated", "value" : "AR Ghost" } }
+      }
+    },
+    "NSCameraUsageDescription" : {
+      "comment" : "Privacy - Camera Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "new", "value" : "AR Ghost uses the camera to show ghosts around you and to detect your hand gestures. Camera images are processed on your device and never leave it." } },
+        "id" : { "stringUnit" : { "state" : "translated", "value" : "AR Ghost memakai kamera untuk menampilkan hantu di sekitarmu dan mendeteksi gestur tanganmu. Gambar kamera diproses di perangkatmu dan tidak pernah dikirim ke mana pun." } }
+      }
+    },
+    "NSPhotoLibraryAddUsageDescription" : {
+      "comment" : "Privacy - Photo Library Additions Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "new", "value" : "AR Ghost saves the ghost photos you choose to keep to your photo library." } },
+        "id" : { "stringUnit" : { "state" : "translated", "value" : "AR Ghost menyimpan foto hantu yang ingin kamu simpan ke galeri foto." } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

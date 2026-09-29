@@ -67,7 +67,6 @@ struct CameraPermissionView: View {
             .frame(maxWidth: .infinity)
         }
         .background(Color.black.ignoresSafeArea())
-        .preferredColorScheme(.dark)
     }
 }
 

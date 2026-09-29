@@ -67,6 +67,12 @@ final class SoundManager {
         player.play()
     }
 
+    /// Suara shutter kamera bawaan sistem.
+    func playShutter() {
+        guard isSoundEffectsEnabled else { return }
+        AudioServicesPlaySystemSound(1108)
+    }
+
     /// Musik dijeda saat app di background, lalu dilanjutkan saat aktif kembali.
     func handleScenePhase(_ phase: ScenePhase) {
         isAppActive = phase == .active
