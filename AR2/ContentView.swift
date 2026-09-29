@@ -49,6 +49,7 @@ struct ContentView: View {
                 .allowsHitTesting(false) // Tombol di belakangnya tetap bisa ditekan jika gate terbuka
             }
         }
+        .statusBarHidden()
     }
     
     // Fungsi Masuk Alam Gaib

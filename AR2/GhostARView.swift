@@ -730,7 +730,7 @@ struct ARViewContainer: UIViewRepresentable {
             phase = .knockedAway
             
             // Memainkan efek suara pukulan (SFX)
-            SoundManager.shared.playSFX(filename: "punch", type: "mp3")
+            SoundManager.shared.play(.punch)
             
             print("👊 PUNCH! Direction: \(direction)")
         }
@@ -753,7 +753,7 @@ struct ARViewContainer: UIViewRepresentable {
             createSmokeEffect()
             
             // Memainkan efek suara transformasi mistis
-            SoundManager.shared.playSFX(filename: "transform", type: "mp3")
+            SoundManager.shared.play(.transform)
             
             print("✨ TRANSFORM! Memuat model: \(newModelName)")
             
