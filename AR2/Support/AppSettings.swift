@@ -11,6 +11,8 @@ enum AppSettings {
     static let soundEffectsEnabled = "settings.soundEffectsEnabled"
     static let hapticsEnabled = "settings.hapticsEnabled"
     static let hasSeenOnboarding = "hasSeenOnboarding"
+    /// `Ghost.id` yang dipilih di Home.
+    static let selectedGhost = "selectedGhost"
 
     /// Nilai awal sebelum pengguna mengubah apa pun.
     static func registerDefaults() {

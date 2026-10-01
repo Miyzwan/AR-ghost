@@ -7,12 +7,13 @@ import SceneKit
 import SwiftUI
 import os
 
-/// Model 3D hantu yang melayang dan bergoyang di Home (tanpa kamera/AR).
+/// Model 3D hantu yang melayang dan bergoyang di Home (tanpa kamera/AR). Saat hantu lain dipilih,
+/// beri `.id(ghost.id)` agar view dibuat ulang dan modelnya dimuat lagi.
 ///
 /// Sengaja memakai SceneKit, bukan RealityView: RealityView berkamera virtual yang tampil
 /// sebelum layar AR membuat latar kamera ARView menjadi hitam di perangkat.
 struct GhostHeroView: View {
-    var ghost: Ghost = GhostCatalog.all[0]
+    let ghost: Ghost
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var scene: SCNScene?
@@ -67,9 +68,10 @@ private enum GhostHeroScene {
             model.addChildNode(child)
         }
 
-        // Tiap USDZ punya satuan dan pivot berbeda: skalakan ke tinggi target, pivot di tengah-bawah
+        // Tiap USDZ punya satuan dan pivot berbeda: muatkan ke kotak yang sama seperti di AR, pivot di tengah-bawah
         let (minBound, maxBound) = model.boundingBox
-        let factor = height / max(maxBound.y - minBound.y, 0.0001)
+        let extents = SIMD3<Float>(maxBound.x - minBound.x, maxBound.y - minBound.y, maxBound.z - minBound.z)
+        let factor = GhostSizing.scale(forExtents: extents, height: height)
         model.scale = SCNVector3(factor, factor, factor)
         model.position = SCNVector3(
             -(minBound.x + maxBound.x) / 2 * factor,
@@ -84,14 +86,14 @@ private enum GhostHeroScene {
         let scene = SCNScene()
         scene.rootNode.addChildNode(pivot)
 
-        // Model punya alas diorama yang lebar, jadi kamera agak jauh dan sedikit dari atas
+        // Kamera membingkai kotak hantu dari sedikit di atas, dengan ruang untuk goyangan dan alas yang lebar
         let camera = SCNCamera()
         camera.fieldOfView = 40
         camera.zNear = 0.01
         let cameraNode = SCNNode()
         cameraNode.camera = camera
-        cameraNode.position = SCNVector3(0, height * 1.05, 0.54)
-        cameraNode.look(at: SCNVector3(0, height * 0.42, 0))
+        cameraNode.position = SCNVector3(0, height * 0.95, height * 2.6)
+        cameraNode.look(at: SCNVector3(0, height * 0.45, 0))
         scene.rootNode.addChildNode(cameraNode)
 
         let ambient = SCNNode()
@@ -146,7 +148,7 @@ private struct GhostSceneView: UIViewRepresentable {
 #Preview {
     ZStack {
         SpookyBackground()
-        GhostHeroView()
+        GhostHeroView(ghost: GhostCatalog.all[0])
             .frame(height: 320)
     }
 }

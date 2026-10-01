@@ -61,8 +61,12 @@ final class GhostARModel: NSObject {
     @ObservationIgnored private var isVisionBusy = false
     @ObservationIgnored private var lastVisionTime: TimeInterval = 0
 
-    init(mode: ARMode) {
+    /// - Parameter startIndex: wujud pertama yang dipanggil (dipilih di Home).
+    init(mode: ARMode, startIndex: Int = 0) {
         self.mode = mode
+        let index = GhostCatalog.all.indices.contains(startIndex) ? startIndex : 0
+        activeIndex = index
+        activeGhost = GhostCatalog.all[index]
         super.init()
     }
 
@@ -140,7 +144,7 @@ final class GhostARModel: NSObject {
         SoundManager.shared.play(.transform)
         transformCount += 1
 
-        let nextIndex = (activeIndex + 1) % GhostCatalog.all.count
+        let nextIndex = GhostCatalog.index(after: activeIndex)
         let nextGhost = GhostCatalog.all[nextIndex]
         // Model dimuat di background; ditukar saat hantu tersembunyi di dalam asap
         loadTask = Task { [weak self] in
@@ -331,14 +335,14 @@ final class GhostARModel: NSObject {
     }
 
     /// Memuat model lalu menormalkan ukurannya. Tiap file USDZ punya satuan berbeda,
-    /// jadi model diskalakan ke tinggi target dengan pivot di tengah-bawah.
+    /// jadi semua model dimuatkan ke kotak yang sama (`GhostSizing`) dengan pivot di tengah-bawah.
     private func makeGhostModel(for ghost: Ghost) async throws -> Entity {
         let model = try await Entity(named: ghost.id)
         let container = Entity()
         container.addChild(model)
 
         let bounds = model.visualBounds(relativeTo: container)
-        let factor = mode.targetHeight(for: ghost) / max(bounds.extents.y, 0.0001)
+        let factor = GhostSizing.scale(forExtents: bounds.extents, height: mode.ghostHeight)
         model.scale *= factor
         model.position = -SIMD3(bounds.center.x, bounds.min.y, bounds.center.z) * factor
 
@@ -387,7 +391,7 @@ final class GhostARModel: NSObject {
 
         let smoke = Entity()
         smoke.components.set(particles)
-        smoke.position = position + SIMD3(0, mode.targetHeight(for: activeGhost) / 2, 0)
+        smoke.position = position + SIMD3(0, mode.ghostHeight / 2, 0)
         anchor.addChild(smoke)
         self.smoke = smoke
         smokeRemovalTime = now + Self.smokeLifetime

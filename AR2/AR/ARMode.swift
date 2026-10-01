@@ -41,10 +41,11 @@ enum ARMode {
         }
     }
 
-    func targetHeight(for ghost: Ghost) -> Float {
+    /// Tinggi kotak hantu (meter). Semua wujud dimuatkan ke kotak yang sama lewat `GhostSizing`.
+    var ghostHeight: Float {
         switch self {
-        case .face: ghost.faceHeight
-        case .world: ghost.worldHeight
+        case .face: 0.2 // di atas kepala
+        case .world: 0.45 // di atas lantai/meja
         }
     }
 

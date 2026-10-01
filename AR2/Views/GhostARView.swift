@@ -7,7 +7,7 @@ import SwiftUI
 
 struct GhostARView: View {
     @Binding var isARActive: Bool
-    @State private var model = GhostARModel(mode: .preferred)
+    @State private var model: GhostARModel
     @State private var capturedPhoto: CapturedPhoto?
     @State private var isCapturing = false
     @State private var flashOpacity = 0.0
@@ -15,6 +15,12 @@ struct GhostARView: View {
     @AppStorage(AppSettings.hapticsEnabled) private var hapticsEnabled = true
 
     private var accent: SpookyAccent { .for(model.activeGhost) }
+
+    /// - Parameter ghost: wujud yang dipanggil pertama kali (pilihan di Home).
+    init(isARActive: Binding<Bool>, ghost: Ghost) {
+        _isARActive = isARActive
+        _model = State(initialValue: GhostARModel(mode: .preferred, startIndex: GhostCatalog.index(ofID: ghost.id)))
+    }
 
     var body: some View {
         ZStack {

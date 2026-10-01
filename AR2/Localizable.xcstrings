@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@, %lld of %lld" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$lld dari %3$lld"
+          }
+        }
+      }
+    },
     "3D Models" : {
       "localizations" : {
         "id" : {
@@ -27,6 +37,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hantu jahil sedang menunggu untuk menghantuimu. Panggil dia, dan dia akan muncul dari belakang kepalamu lalu berdiam di atasnya."
+          }
+        }
+      }
+    },
+    "A pirate ghost who lost his ship, his crew, and his map. He kept the hat, though, and he still shouts \"Arrr!\" at every bathtub he sees." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hantu bajak laut yang kehilangan kapal, awak, dan petanya. Topinya masih dia simpan, dan dia masih berteriak \"Arrr!\" setiap kali melihat bak mandi."
+          }
+        }
+      }
+    },
+    "A tiny witch who never learned to steer her broom, so she just flies in circles. Her spells mostly turn tea into slightly colder tea." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Penyihir mungil yang tidak pernah belajar mengendalikan sapunya, jadi dia hanya terbang berputar-putar. Mantranya kebanyakan cuma mengubah teh menjadi teh yang sedikit lebih dingin."
           }
         }
       }
@@ -91,12 +121,42 @@
         }
       }
     },
+    "Boo always opens his arms for a hug. Sadly, every hug goes right through you, but he never stops trying." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boo selalu membuka tangannya untuk memelukmu. Sayangnya, setiap pelukannya tembus begitu saja, tapi dia tidak pernah berhenti mencoba."
+          }
+        }
+      }
+    },
+    "Boo Buddy" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boo Buddy"
+          }
+        }
+      }
+    },
     "by %@, licensed under %@" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "oleh %1$@, lisensi %2$@"
+          }
+        }
+      }
+    },
+    "Captain Boo" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapten Boo"
           }
         }
       }
@@ -151,6 +211,16 @@
         }
       }
     },
+    "Ghost" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hantu"
+          }
+        }
+      }
+    },
     "Ghost info" : {
       "localizations" : {
         "id" : {
@@ -181,22 +251,22 @@
         }
       }
     },
+    "Little Witch" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Penyihir Cilik"
+          }
+        }
+      }
+    },
     "Meet Mister Q" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kenalan dengan Mister Q"
-          }
-        }
-      }
-    },
-    "Meet Mister Q. Cute… until he isn't." : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kenalan dengan Mister Q. Lucu… sampai dia berubah."
           }
         }
       }
@@ -221,6 +291,36 @@
         }
       }
     },
+    "Mochi loved napping so much that she kept doing it in the afterlife. Her ears still twitch whenever someone opens a can of tuna." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mochi sangat suka tidur siang sampai-sampai dia terus melakukannya di alam baka. Telinganya masih bergerak setiap kali ada yang membuka kaleng tuna."
+          }
+        }
+      }
+    },
+    "Mochi the Ghost Cat" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mochi si Kucing Hantu"
+          }
+        }
+      }
+    },
+    "Mochi's twin sister prefers dark corners. Her glowing eyes look spooky, but she only wants to knock your things off the table." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saudari kembar Mochi ini lebih suka sudut yang gelap. Matanya yang menyala terlihat seram, padahal dia cuma ingin menjatuhkan barang-barangmu dari meja."
+          }
+        }
+      }
+    },
     "Music" : {
       "localizations" : {
         "id" : {
@@ -237,6 +337,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "LANJUT"
+          }
+        }
+      }
+    },
+    "Nori the Shadow Cat" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nori si Kucing Bayangan"
           }
         }
       }
@@ -267,6 +377,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Foto yang kamu ambil hanya disimpan di memori sampai kamu sendiri membagikan atau menyimpannya."
+          }
+        }
+      }
+    },
+    "Pick your ghost. Cute… until it isn't." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih hantumu. Lucu… sampai dia berubah."
+          }
+        }
+      }
+    },
+    "Pixel" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pixel"
+          }
+        }
+      }
+    },
+    "Pixel escaped from an old arcade game. He still thinks in squares, and he jumps whenever he hears a coin drop into a machine." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pixel kabur dari mesin game arkade tua. Dia masih berpikir serba kotak, dan selalu kaget setiap kali mendengar koin masuk ke mesin."
           }
         }
       }
@@ -327,6 +467,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tampilkan Tutorial"
+          }
+        }
+      }
+    },
+    "Sir Reaper" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuan Pencabut"
           }
         }
       }
@@ -461,6 +611,16 @@
         }
       }
     },
+    "The most polite reaper in the underworld. He always tips his hat first, and he only uses his scythe to trim the graveyard grass." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malaikat maut paling sopan di alam baka. Dia selalu mengangkat topinya lebih dulu, dan sabitnya hanya dipakai untuk memangkas rumput kuburan."
+          }
+        }
+      }
+    },
     "This device doesn't support augmented reality." : {
       "localizations" : {
         "id" : {
@@ -497,6 +657,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Getaran"
+          }
+        }
+      }
+    },
+    "Wavy" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wavy"
+          }
+        }
+      }
+    },
+    "Wavy waves at everyone he floats past. Nobody ever waves back, because nobody can see him... except you. Wave back!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wavy melambai pada semua orang yang dia lewati. Tidak ada yang membalas, karena tidak ada yang bisa melihatnya... kecuali kamu. Balas lambaiannya!"
           }
         }
       }

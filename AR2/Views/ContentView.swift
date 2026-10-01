@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var isTransitioning = false
     @State private var showCameraPermission = false
     @AppStorage(AppSettings.hasSeenOnboarding) private var hasSeenOnboarding = false
+    @AppStorage(AppSettings.selectedGhost) private var selectedGhostID = GhostCatalog.all[0].id
 
     private var isARActiveBinding: Binding<Bool> {
         Binding<Bool>(
@@ -39,9 +40,9 @@ struct ContentView: View {
 
             // Tampilan Utama (Home / AR)
             if isARActive {
-                GhostARView(isARActive: isARActiveBinding)
+                GhostARView(isARActive: isARActiveBinding, ghost: GhostCatalog.ghost(withID: selectedGhostID))
             } else {
-                HomeView(isARActive: isARActiveBinding)
+                HomeView(isARActive: isARActiveBinding, selectedGhostID: $selectedGhostID)
             }
 
             PortalTransitionView(cover: portalCover, reduceMotion: reduceMotion)

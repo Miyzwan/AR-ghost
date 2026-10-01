@@ -7,22 +7,35 @@ import SwiftUI
 
 struct HomeView: View {
     @Binding var isARActive: Bool
+    /// `Ghost.id` yang akan dipanggil ke AR.
+    @Binding var selectedGhostID: String
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @AppStorage(AppSettings.hapticsEnabled) private var hapticsEnabled = true
     @State private var showSettings = false
     @State private var isGlowing = false
 
     private let mode = ARMode.preferred
+
+    private var selectedIndex: Int { GhostCatalog.index(ofID: selectedGhostID) }
+    private var selectedGhost: Ghost { GhostCatalog.all[selectedIndex] }
 
     var body: some View {
         ZStack {
             SpookyBackground()
 
             VStack(spacing: 0) {
-                // Bintang utama: Mister Q dalam 3D
-                GhostHeroView()
-                    .frame(minHeight: 150, maxHeight: 340)
+                // Bintang utama: hantu pilihan dalam 3D, geser untuk ganti
+                GhostHeroView(ghost: selectedGhost)
+                    .id(selectedGhost.id)
+                    // Hantu lama memudar mengecil, hantu baru muncul membesar
+                    .transition(reduceMotion ? .opacity : .scale(scale: 0.7).combined(with: .opacity))
+                    .frame(minHeight: 150, maxHeight: 320)
                     .padding(.top, 40)
+                    .contentShape(.rect)
+                    .gesture(swipeGesture)
+
+                ghostPicker
 
                 VStack(spacing: 14) {
                     Text(verbatim: "AR GHOST")
@@ -36,7 +49,7 @@ struct HomeView: View {
                         .shadow(color: Spooky.pumpkin.opacity(isGlowing ? 0.7 : 0.3), radius: 18)
                         .accessibilityAddTraits(.isHeader)
 
-                    Text("Meet Mister Q. Cute… until he isn't.")
+                    Text("Pick your ghost. Cute… until it isn't.")
                         .font(.spooky(.title3, weight: .medium))
                         .foregroundStyle(Spooky.mistDim)
                         .multilineTextAlignment(.center)
@@ -44,7 +57,7 @@ struct HomeView: View {
                     modeChip
                         .padding(.top, 4)
                 }
-                .padding(.top, 8)
+                .padding(.top, 20)
 
                 Spacer(minLength: 24)
 
@@ -67,6 +80,11 @@ struct HomeView: View {
             .accessibilityLabel(Text("Settings"))
             .padding(20)
         }
+        .environment(\.spookyAccent, .for(selectedGhost))
+        .animation(.easeInOut(duration: 0.4), value: selectedGhost.mood)
+        .sensoryFeedback(trigger: selectedGhostID) { _, _ in
+            hapticsEnabled ? .selection : nil
+        }
         .sheet(isPresented: $showSettings) {
             SettingsView()
         }
@@ -75,6 +93,68 @@ struct HomeView: View {
             withAnimation(.easeInOut(duration: 2.2).repeatForever(autoreverses: true)) {
                 isGlowing = true
             }
+        }
+    }
+
+    // --- Pemilih hantu: panah kiri/kanan, nama, dan titik halaman ---
+    private var ghostPicker: some View {
+        HStack(spacing: 12) {
+            Button {
+                select(offset: -1)
+            } label: {
+                Image(systemName: "chevron.left")
+            }
+            .buttonStyle(SpookyIconButtonStyle(size: 44))
+            .accessibilityHidden(true)
+
+            VStack(spacing: 10) {
+                Text(selectedGhost.name)
+                    .font(.spooky(.headline, weight: .heavy))
+                    .foregroundStyle(Spooky.mist)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.8)
+                    .contentTransition(.opacity)
+                    .frame(maxWidth: .infinity)
+
+                PageDots(count: GhostCatalog.all.count, current: selectedIndex)
+            }
+
+            Button {
+                select(offset: 1)
+            } label: {
+                Image(systemName: "chevron.right")
+            }
+            .buttonStyle(SpookyIconButtonStyle(size: 44))
+            .accessibilityHidden(true)
+        }
+        // VoiceOver: satu elemen yang bisa digeser naik/turun
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Ghost"))
+        .accessibilityValue(Text("\(String(localized: selectedGhost.name)), \(selectedIndex + 1) of \(GhostCatalog.all.count)"))
+        .accessibilityAdjustableAction { direction in
+            switch direction {
+            case .increment: select(offset: 1)
+            case .decrement: select(offset: -1)
+            @unknown default: break
+            }
+        }
+    }
+
+    private var swipeGesture: some Gesture {
+        DragGesture(minimumDistance: 24)
+            .onEnded { value in
+                guard abs(value.translation.width) > abs(value.translation.height) else { return }
+                select(offset: value.translation.width < 0 ? 1 : -1)
+            }
+    }
+
+    /// Pindah ke hantu sebelah (berputar di ujung daftar).
+    private func select(offset: Int) {
+        let count = GhostCatalog.all.count
+        let next = (selectedIndex + offset + count) % count
+        withAnimation(.spring(duration: 0.45)) {
+            selectedGhostID = GhostCatalog.all[next].id
         }
     }
 
@@ -93,6 +173,24 @@ struct HomeView: View {
         .padding(.horizontal, 14)
         .padding(.vertical, 8)
         .glassEffect(.regular, in: .capsule)
+    }
+}
+
+/// Titik-titik kecil penanda hantu ke berapa yang dipilih.
+private struct PageDots: View {
+    let count: Int
+    let current: Int
+    @Environment(\.spookyAccent) private var accent
+
+    var body: some View {
+        HStack(spacing: 6) {
+            ForEach(0..<count, id: \.self) { index in
+                Capsule()
+                    .fill(index == current ? accent.color : Spooky.mist.opacity(0.3))
+                    .frame(width: index == current ? 18 : 6, height: 6)
+            }
+        }
+        .animation(.spring(duration: 0.3), value: current)
     }
 }
 
