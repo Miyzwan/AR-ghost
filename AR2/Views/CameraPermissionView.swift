@@ -28,23 +28,20 @@ struct CameraPermissionView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                Image(systemName: "camera.fill")
-                    .font(.system(size: 60))
-                    .foregroundStyle(.red)
-                    .shadow(color: .red, radius: 20)
-                    .accessibilityHidden(true)
+                GlowOrb(symbol: "camera.fill", size: 120)
+                    .padding(.top, 16)
 
                 Text("The ghost needs your camera")
-                    .font(.system(.title, design: .serif, weight: .black))
-                    .foregroundStyle(.white)
+                    .font(.spooky(.title, weight: .black))
+                    .foregroundStyle(Spooky.mist)
 
                 Text("AR Ghost uses the camera to show ghosts around you and to detect your hand gestures. Camera images are processed on your device and never leave it.")
-                    .font(.system(.body, design: .serif))
-                    .foregroundStyle(.gray)
+                    .font(.spooky(.body, weight: .regular))
+                    .foregroundStyle(Spooky.mistDim)
 
                 Text("Allow camera access in Settings to summon the ghost.")
-                    .font(.system(.body, design: .serif, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .font(.spooky(.body, weight: .semibold))
+                    .foregroundStyle(Spooky.mist)
 
                 Button("OPEN SETTINGS") {
                     if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -52,21 +49,21 @@ struct CameraPermissionView: View {
                     }
                     dismiss()
                 }
-                .buttonStyle(HauntedButtonStyle())
+                .buttonStyle(SpookyButtonStyle())
                 .padding(.top, 8)
 
                 Button("Not Now") {
                     dismiss()
                 }
-                .font(.system(.body, design: .serif))
-                .foregroundStyle(.gray)
+                .buttonStyle(SpookyTextButtonStyle())
             }
             .multilineTextAlignment(.center)
             .padding(32)
             .frame(maxWidth: 560)
             .frame(maxWidth: .infinity)
         }
-        .background(Color.black.ignoresSafeArea())
+        .background(SpookyBackground())
+        .fontDesign(.rounded)
     }
 }
 

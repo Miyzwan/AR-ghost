@@ -26,7 +26,6 @@ final class GhostARModel: NSObject {
     private(set) var activeGhost: Ghost = GhostCatalog.all[0]
     /// Wajah (mode wajah) atau permukaan (mode dunia) sudah ditemukan.
     private(set) var isTargetFound = false
-    private(set) var canTransform = false
     /// Posisi tangan di layar, hanya diisi di build DEBUG.
     private(set) var handPoint: CGPoint?
     private(set) var clapProgress: Double = 0
@@ -77,7 +76,6 @@ final class GhostARModel: NSObject {
         }
 
         arView.session.delegate = self
-        arView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
         if mode == .world {
             addCoachingOverlay(to: arView)
         }
@@ -130,7 +128,7 @@ final class GhostARModel: NSObject {
 
     // MARK: - Actions
 
-    /// Mengubah wujud hantu (dari gestur tepuk atau tombol).
+    /// Mengubah wujud hantu (dari gestur tepuk).
     func transform() {
         let now = CACurrentMediaTime()
         guard var motion, motion.beginTransform(at: now) else { return }
@@ -204,11 +202,6 @@ final class GhostARModel: NSObject {
             translation: pose.position
         )
         self.motion = motion
-
-        let transformReady = motion.canTransform(at: now)
-        if canTransform != transformReady {
-            canTransform = transformReady
-        }
 
         if motion.canPunch(at: now) {
             detectHandsIfNeeded(in: arView, at: now)
@@ -318,26 +311,6 @@ final class GhostARModel: NSObject {
         return right * Float(screenDirection.dx) - up * Float(screenDirection.dy)
     }
 
-    // MARK: - Tap
-
-    @objc private func handleTap(_ recognizer: UITapGestureRecognizer) {
-        guard let arView, let ghostRoot else { return }
-        let location = recognizer.location(in: arView)
-
-        if let hit = arView.entity(at: location), hit.isDescendant(of: ghostRoot),
-           let center = ghostScreenPoint(in: arView) {
-            // Ketuk hantu = pukul, mendorongnya menjauh dari titik ketukan
-            var direction = CGVector(dx: center.x - location.x, dy: center.y - location.y)
-            if hypot(direction.dx, direction.dy) < 1 {
-                direction = CGVector(dx: 0, dy: -1)
-            }
-            punch(screenDirection: direction)
-        } else {
-            // Sentuhan di tempat kosong menyembunyikan info
-            showGhostInfo = false
-        }
-    }
-
     // MARK: - Ghost model
 
     private func loadInitialGhost() {
@@ -379,8 +352,6 @@ final class GhostARModel: NSObject {
         guard let ghostRoot else { return }
         ghostModel?.removeFromParent()
         ghostRoot.addChild(model)
-        // Collision bounds agar hantu bisa dideteksi oleh ketukan jari (hit-test)
-        ghostRoot.generateCollisionShapes(recursive: true)
         ghostModel = model
     }
 

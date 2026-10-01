@@ -14,13 +14,15 @@ struct GhostARView: View {
     @State private var showSettings = false
     @AppStorage(AppSettings.hapticsEnabled) private var hapticsEnabled = true
 
+    private var accent: SpookyAccent { .for(model.activeGhost) }
+
     var body: some View {
         ZStack {
             // Kamera AR dan 3D objek
             ARViewContainer(model: model)
                 .ignoresSafeArea()
 
-            BloodOverlayView()
+            SpookyVignetteView(accent: accent)
 
             #if DEBUG
             HandDebugView(point: model.handPoint)
@@ -34,6 +36,8 @@ struct GhostARView: View {
             statusOverlay
 
             VStack(spacing: 16) {
+                topBar
+
                 Spacer()
 
                 if model.showGhostInfo {
@@ -43,8 +47,8 @@ struct GhostARView: View {
 
                 controls
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
 
             // Kilatan putih saat mengambil foto
             Color.white
@@ -52,8 +56,10 @@ struct GhostARView: View {
                 .opacity(flashOpacity)
                 .allowsHitTesting(false)
         }
+        .environment(\.spookyAccent, accent)
         .animation(.spring(), value: model.showGhostInfo)
         .animation(.easeInOut(duration: 0.2), value: model.clapProgress > 0)
+        .animation(.easeInOut(duration: 0.6), value: accent)
         .sensoryFeedback(trigger: model.punchCount) { _, _ in
             hapticsEnabled ? .impact(weight: .heavy) : nil
         }
@@ -62,6 +68,7 @@ struct GhostARView: View {
         }
         .sheet(item: $capturedPhoto) { photo in
             PhotoPreviewView(photo: photo)
+                .environment(\.spookyAccent, accent)
         }
         .sheet(isPresented: $showSettings) {
             SettingsView()
@@ -80,52 +87,59 @@ struct GhostARView: View {
         withAnimation(.easeOut(duration: 0.4)) {
             flashOpacity = 0
         }
-        capturedPhoto = CapturedPhoto(image: PhotoComposer.compose(snapshot))
+        capturedPhoto = CapturedPhoto(image: PhotoComposer.compose(snapshot, accent: accent))
     }
 
-    // --- Tombol-tombol ---
-    private var controls: some View {
-        VStack(spacing: 16) {
-            HStack(spacing: 20) {
-                Button {
-                    showSettings = true
-                } label: {
-                    Image(systemName: "gearshape.fill")
-                }
-                .buttonStyle(HauntedCircleButtonStyle())
-                .accessibilityLabel(Text("Settings"))
+    // --- Bar atas: keluar dan pengaturan ---
+    private var topBar: some View {
+        HStack {
+            Button {
+                isARActive = false
+            } label: {
+                Image(systemName: "xmark")
+            }
+            .buttonStyle(SpookyIconButtonStyle(size: 46))
+            .accessibilityLabel(Text("BACK TO THE REAL WORLD"))
 
+            Spacer()
+
+            Button {
+                showSettings = true
+            } label: {
+                Image(systemName: "gearshape.fill")
+            }
+            .buttonStyle(SpookyIconButtonStyle(size: 46))
+            .accessibilityLabel(Text("Settings"))
+        }
+    }
+
+    // --- Tombol bawah: info dan shutter. Hantu hanya bisa disentuh lewat gestur tangan. ---
+    private var controls: some View {
+        GlassEffectContainer(spacing: 28) {
+            HStack(spacing: 28) {
                 Button {
                     model.showGhostInfo.toggle()
                 } label: {
-                    Text(verbatim: "?")
+                    Image(systemName: model.showGhostInfo ? "xmark" : "questionmark")
+                        .contentTransition(.symbolEffect(.replace))
                 }
-                .buttonStyle(HauntedCircleButtonStyle())
+                .buttonStyle(SpookyIconButtonStyle(size: 58))
                 .accessibilityLabel(Text("Ghost info"))
-
-                Button {
-                    model.transform()
-                } label: {
-                    Image(systemName: "hands.sparkles.fill")
-                }
-                .buttonStyle(HauntedCircleButtonStyle())
-                .disabled(!model.canTransform)
-                .accessibilityLabel(Text("Transform the ghost"))
 
                 Button {
                     Task { await capturePhoto() }
                 } label: {
                     Image(systemName: "camera.fill")
                 }
-                .buttonStyle(HauntedCircleButtonStyle())
+                .buttonStyle(ShutterButtonStyle())
                 .disabled(model.status != .running || isCapturing)
                 .accessibilityLabel(Text("Take a photo"))
-            }
 
-            Button("BACK TO THE REAL WORLD") {
-                isARActive = false
+                // Penyeimbang agar shutter tetap di tengah layar
+                Color.clear
+                    .frame(width: 58, height: 58)
+                    .accessibilityHidden(true)
             }
-            .buttonStyle(HauntedButtonStyle())
         }
     }
 
@@ -135,29 +149,32 @@ struct GhostARView: View {
         switch model.status {
         case .loading:
             StatusCard {
-                ProgressView().tint(.red)
+                ProgressView().tint(accent.color)
                 Text("Summoning the ghost…")
             }
         case .unsupported:
             StatusCard {
+                Image(systemName: "eye.slash")
                 Text("This device doesn't support augmented reality.")
             }
         case .interrupted:
             StatusCard {
+                Image(systemName: "pause.circle")
                 Text("The camera is paused.")
             }
         case .failed:
             StatusCard {
+                Image(systemName: "exclamationmark.triangle")
                 Text("The ghost couldn't be summoned.")
                 Button("Try Again") { model.retry() }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.red)
+                    .buttonStyle(SpookyButtonStyle())
             }
         case .running:
             // Mode dunia memakai coaching overlay bawaan ARKit untuk mencari permukaan
             if model.mode == .face && !model.isTargetFound {
                 StatusCard {
                     Image(systemName: "face.smiling")
+                        .symbolEffect(.breathe)
                     Text("Point the front camera at your face.")
                 }
             }
@@ -167,16 +184,36 @@ struct GhostARView: View {
 
 // MARK: - Komponen
 
+/// Tombol shutter besar: cincin kabut dengan isi warna aksen.
+private struct ShutterButtonStyle: ButtonStyle {
+    @Environment(\.spookyAccent) private var accent
+    @Environment(\.isEnabled) private var isEnabled
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 26, weight: .bold))
+            .foregroundStyle(accent.onColor)
+            .frame(width: 66, height: 66)
+            .background(Circle().fill(accent.color))
+            .padding(6)
+            .overlay(Circle().strokeBorder(Spooky.mist, lineWidth: 4))
+            .shadow(color: accent.color.opacity(0.6), radius: 16)
+            .scaleEffect(configuration.isPressed ? 0.9 : 1)
+            .opacity(isEnabled ? 1 : 0.45)
+            .animation(.spring(duration: 0.25), value: configuration.isPressed)
+    }
+}
+
 private struct StatusCard<Content: View>: View {
     @ViewBuilder var content: Content
 
     var body: some View {
-        HauntedCard {
+        SpookyCard {
             VStack(spacing: 12) {
                 content
             }
-            .font(.system(.headline, design: .serif))
-            .foregroundStyle(.white)
+            .font(.spooky(.headline, weight: .semibold))
+            .foregroundStyle(Spooky.mist)
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
         }
@@ -186,19 +223,18 @@ private struct StatusCard<Content: View>: View {
 
 private struct GhostInfoCard: View {
     let ghost: Ghost
+    @Environment(\.spookyAccent) private var accent
 
     var body: some View {
-        HauntedCard {
+        SpookyCard {
             VStack(alignment: .leading, spacing: 10) {
                 Text(ghost.name)
-                    .font(.system(.title2, design: .serif, weight: .black))
-                    .tracking(2)
-                    .foregroundStyle(Color(red: 1.0, green: 0.2, blue: 0.2))
+                    .font(.spooky(.title2, weight: .black))
+                    .foregroundStyle(accent.color)
 
                 Text(ghost.lore)
-                    .font(.system(.body, design: .serif))
-                    .italic()
-                    .foregroundStyle(.white)
+                    .font(.spooky(.body, weight: .medium))
+                    .foregroundStyle(Spooky.mist)
             }
         }
     }
@@ -207,24 +243,28 @@ private struct GhostInfoCard: View {
 // --- Indikator gestur tepuk (menyatukan tangan) ---
 private struct ClapIndicatorView: View {
     let progress: Double
+    @Environment(\.spookyAccent) private var accent
 
     var body: some View {
         ZStack {
             Circle()
-                .stroke(.white.opacity(0.3), lineWidth: 8)
+                .fill(Spooky.night.opacity(0.35))
+
+            Circle()
+                .stroke(Spooky.mist.opacity(0.25), lineWidth: 8)
 
             Circle()
                 .trim(from: 0, to: progress)
-                .stroke(Color(red: 0.8, green: 0, blue: 0), style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                .stroke(accent.color, style: StrokeStyle(lineWidth: 8, lineCap: .round))
                 .rotationEffect(.degrees(-90))
                 .animation(.linear(duration: 0.1), value: progress)
-                .shadow(color: Color(red: 0.8, green: 0, blue: 0), radius: 10)
+                .shadow(color: accent.color, radius: 10)
 
             Image(systemName: "hands.sparkles.fill")
                 .font(.system(size: 50))
-                .foregroundStyle(.white)
+                .foregroundStyle(Spooky.mist)
                 .symbolEffect(.rotate.clockwise.byLayer, options: .repeat(.continuous))
-                .shadow(color: Color(red: 0.8, green: 0, blue: 0), radius: 10)
+                .shadow(color: accent.color, radius: 10)
                 .scaleEffect(1.0 + progress * 0.2)
                 .animation(.easeInOut(duration: 0.2), value: progress)
         }

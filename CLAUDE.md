@@ -27,7 +27,7 @@ xcodebuild test -project AR2.xcodeproj -scheme AR2 -destination 'platform=iOS Si
 
 **App shell.** `AR2App` (SwiftUI `App`) registers defaults (`AppSettings`) and starts `SoundManager`, which uses an `.ambient` session and one preloaded player per effect. Sound, vibration and onboarding settings are `@AppStorage` keys defined in `AppSettings`, shared by the views and `SoundManager`.
 
-**Screen switching (`ContentView`).** `ContentView` owns `isARActive` and passes `HomeView` and `GhostARView` a *custom* `Binding`. Its setter asks for camera permission, runs the gate animation, and ignores taps while a transition is running. Child views just set `isARActive`. Onboarding is a `fullScreenCover`, shown while `hasSeenOnboarding` is false.
+**Screen switching (`ContentView`).** `ContentView` owns `isARActive` and passes `HomeView` and `GhostARView` a *custom* `Binding`. Its setter asks for camera permission, runs the portal transition (`PortalTransitionView`), and ignores taps while a transition is running. Child views just set `isARActive`. Onboarding is a `fullScreenCover`, shown while `hasSeenOnboarding` is false.
 
 **AR screen.** `GhostARView` (SwiftUI HUD) → `ARViewContainer` (`UIViewRepresentable`; `dismantleUIView` calls `detach()`, which stops the camera) → `GhostARModel` (`@Observable`, the only class that touches ARKit and RealityKit). Pure logic lives in separate types so it can be tested:
 
@@ -42,7 +42,11 @@ xcodebuild test -project AR2.xcodeproj -scheme AR2 -destination 'platform=iOS Si
   Only one Vision request is in flight at a time.
 - Punch directions start in screen space and are unprojected onto the plane of the ghost (`worldDirection`), so they stay correct for either camera.
 
-**Ghost models.** `GhostCatalog` in `Model/Ghost.swift` lists each form: the USDZ file name, localized name and lore, target heights, and CC BY credits. USDZ files use very different native units and pivots, so `makeGhostModel` scales every model to a target height with a bottom-center pivot. To add a form, drop the `.usdz` into `AR2/` and add a `Ghost` entry. Keep its attribution; the Credits screen lists it.
+**Visual style.** `SpookyTheme.swift` holds the "cute-spooky" palette (`Spooky`: blood-red night, bone white, pumpkin orange), SF Rounded type (`Font.spooky`), Liquid Glass button and card styles, and `SpookyBackground`. The `spookyAccent` environment value is pumpkin for a cute ghost and bright red for an angry one (`Ghost.mood`). The AR screen and the shared photo both follow it. The ghost is driven by hand gestures only: there is no transform button and no tap-to-punch.
+
+**Home hero.** `GhostHeroView` renders the first ghost with **SceneKit**, not RealityKit. A `RealityView` with a virtual camera shown before the AR screen turns the `ARView` camera feed black on device: the ghost renders, the background doesn't. `ARViewContainer` also sets `environment.background = .cameraFeed()` explicitly for the same reason.
+
+**Ghost models.** `GhostCatalog` in `Model/Ghost.swift` lists each form: the USDZ file name, localized name and lore, target heights, `mood`, and CC BY credits. USDZ files use very different native units and pivots, so `makeGhostModel` (and `GhostHeroScene` on Home) scales every model to a target height with a bottom-center pivot. To add a form, drop the `.usdz` into `AR2/` and add a `Ghost` entry. Keep its attribution; the Credits screen lists it.
 
 ## Conventions
 

@@ -14,10 +14,16 @@ struct Ghost: Identifiable, Equatable {
         let url: URL
     }
 
+    /// Menentukan warna aksen UI saat wujud ini aktif.
+    enum Mood {
+        case cute, angry
+    }
+
     /// Nama file .usdz di bundle.
     let id: String
     let name: LocalizedStringResource
     let lore: LocalizedStringResource
+    let mood: Mood
     /// Tinggi hantu (meter) di atas kepala pada mode wajah.
     let faceHeight: Float
     /// Tinggi hantu (meter) di atas permukaan pada mode dunia.
@@ -36,6 +42,7 @@ enum GhostCatalog {
             id: "Cute_ghost",
             name: "Mister Q (The Cute Ghost)",
             lore: "Don't be fooled by his cute looks! He loves to settle on top of people's heads and slowly drain the sadness from their aura. If your head suddenly feels heavy, he might be the culprit...",
+            mood: .cute,
             faceHeight: 0.15,
             worldHeight: 0.35,
             credit: Ghost.Credit(
@@ -49,6 +56,7 @@ enum GhostCatalog {
             id: "Scary_ghost",
             name: "Mister Q (True Form)",
             lore: "This is what Mister Q really looks like when he's angry. Clap again quickly, maybe he'll turn cute again...",
+            mood: .angry,
             faceHeight: 0.27,
             worldHeight: 0.6,
             credit: Ghost.Credit(

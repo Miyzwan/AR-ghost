@@ -41,6 +41,26 @@
         }
       }
     },
+    "Appears above your head" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muncul di atas kepalamu"
+          }
+        }
+      }
+    },
+    "Appears on a floor or table" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muncul di lantai atau meja"
+          }
+        }
+      }
+    },
     "AR Ghost does not collect, store, or share any personal data." : {
       "localizations" : {
         "id" : {
@@ -131,16 +151,6 @@
         }
       }
     },
-    "Find the cute ghost that rises from behind you and settles on top of your head..." : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temukan hantu imut yang muncul dari belakang dan berdiam di atas kepalamu..."
-          }
-        }
-      }
-    },
     "Ghost info" : {
       "localizations" : {
         "id" : {
@@ -151,12 +161,12 @@
         }
       }
     },
-    "Hold both hands together in front of the camera until the circle fills up, or press the sparkle button. He might not stay cute..." : {
+    "Hold both hands together in front of the camera until the circle fills up. He might not stay cute..." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Satukan kedua tangan di depan kamera sampai lingkarannya penuh, atau tekan tombol kilau. Dia belum tentu tetap imut..."
+            "value" : "Satukan kedua tangan di depan kamera sampai lingkarannya penuh. Dia belum tentu tetap imut..."
           }
         }
       }
@@ -177,6 +187,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kenalan dengan Mister Q"
+          }
+        }
+      }
+    },
+    "Meet Mister Q. Cute… until he isn't." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kenalan dengan Mister Q. Lucu… sampai dia berubah."
           }
         }
       }
@@ -257,16 +277,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arahkan kamera depan ke wajahmu."
-          }
-        }
-      }
-    },
-    "Press the sparkle button to transform him. He might not stay cute..." : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tekan tombol kilau untuk mengubah wujudnya. Dia belum tentu tetap imut..."
           }
         }
       }
@@ -371,12 +381,22 @@
         }
       }
     },
-    "Swing your hand quickly toward the ghost to knock him flying. You can also just tap him." : {
+    "Swing your hand quickly in front of the camera to knock him flying." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ayunkan tanganmu dengan cepat ke arah hantu untuk membuatnya terlempar. Kamu juga bisa mengetuknya."
+            "value" : "Ayunkan tanganmu dengan cepat di depan kamera untuk membuatnya terlempar."
+          }
+        }
+      }
+    },
+    "Swing your hand quickly toward the ghost to knock him flying." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayunkan tanganmu dengan cepat ke arah hantu untuk membuatnya terlempar."
           }
         }
       }
@@ -387,16 +407,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ambil foto"
-          }
-        }
-      }
-    },
-    "Tap the ghost, or swing your hand quickly in front of the camera, to knock him flying." : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ketuk hantu, atau ayunkan tanganmu dengan cepat di depan kamera, untuk membuatnya terlempar."
           }
         }
       }
@@ -467,16 +477,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beginilah wujud asli Mister Q saat sedang marah. Cepat tepuk tangan lagi, siapa tahu dia kembali imut..."
-          }
-        }
-      }
-    },
-    "Transform the ghost" : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ubah wujud hantu"
           }
         }
       }

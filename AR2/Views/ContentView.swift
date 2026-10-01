@@ -10,9 +10,9 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var isARActive = false
-    @State private var gateOpen = true
-    @State private var gateScale: CGFloat = 1.0
-    // Mencegah transisi ganda jika tombol ditekan berkali-kali selama animasi gerbang
+    /// 0 = portal terbuka penuh (tak terlihat), 1 = layar tertutup kabut.
+    @State private var portalCover: CGFloat = 0
+    // Mencegah transisi ganda jika tombol ditekan berkali-kali selama animasi portal
     @State private var isTransitioning = false
     @State private var showCameraPermission = false
     @AppStorage(AppSettings.hasSeenOnboarding) private var hasSeenOnboarding = false
@@ -24,9 +24,9 @@ struct ContentView: View {
                 guard !isTransitioning, newValue != isARActive else { return }
                 Task {
                     if newValue {
-                        await closeGateAndEnterAR()
+                        await enterAR()
                     } else {
-                        await closeGateAndReturn()
+                        await returnHome()
                     }
                 }
             }
@@ -34,29 +34,21 @@ struct ContentView: View {
     }
 
     var body: some View {
-        GeometryReader { proxy in
-            ZStack {
-                Color.black.edgesIgnoringSafeArea(.all)
-                
-                // Tampilan Utama (Home / AR)
-                if isARActive {
-                    GhostARView(isARActive: isARActiveBinding)
-                } else {
-                    HomeView(isARActive: isARActiveBinding)
-                }
-                
-                // Overlay Gerbang Besi Gotik
-                HStack(spacing: 0) {
-                    GateDoorView(isLeft: true)
-                        .offset(x: gateOpen ? -proxy.size.width / 2 - 100 : 0)
-                    
-                    GateDoorView(isLeft: false)
-                        .offset(x: gateOpen ? proxy.size.width / 2 + 100 : 0)
-                }
-                .scaleEffect(gateScale)
-                .allowsHitTesting(false) // Tombol di belakangnya tetap bisa ditekan jika gate terbuka
+        ZStack {
+            Spooky.night.ignoresSafeArea()
+
+            // Tampilan Utama (Home / AR)
+            if isARActive {
+                GhostARView(isARActive: isARActiveBinding)
+            } else {
+                HomeView(isARActive: isARActiveBinding)
             }
+
+            PortalTransitionView(cover: portalCover, reduceMotion: reduceMotion)
+                .allowsHitTesting(false) // Tombol di belakangnya tetap bisa ditekan jika portal terbuka
         }
+        .fontDesign(.rounded)
+        .tint(Spooky.pumpkin)
         .statusBarHidden()
         .sheet(isPresented: $showCameraPermission) {
             CameraPermissionView()
@@ -74,8 +66,8 @@ struct ContentView: View {
         }
     }
 
-    // Fungsi Masuk Alam Gaib
-    private func closeGateAndEnterAR() async {
+    // Masuk ke alam gaib: portal menutup, berganti ke AR, lalu terbuka lagi
+    private func enterAR() async {
         isTransitioning = true
         defer { isTransitioning = false }
 
@@ -85,130 +77,93 @@ struct ContentView: View {
             return
         }
 
-        // 1. Gerbang Tertutup (BLAAM!)
-        withAnimation(.easeIn(duration: 0.8)) {
-            gateOpen = false
-            gateScale = reduceMotion ? 1.0 : 1.05 // Sedikit efek benturan
+        withAnimation(.easeIn(duration: 0.7)) {
+            portalCover = 1
         }
+        try? await Task.sleep(for: .seconds(0.85))
+        isARActive = true
 
-        // 2. Transisi Alam saat gelap total
-        try? await Task.sleep(for: .seconds(0.9))
-        isARActive = true // Pindah ke halaman AR
-
-        // 3. Gerbang Terbuka dengan gaya tersedot (Zoom)
-        withAnimation(.timingCurve(0.3, 0.0, 0.1, 1.0, duration: 2.0)) {
-            gateOpen = true
-            gateScale = reduceMotion ? 1.0 : 1.4 // Membesar seolah masuk menembus gerbang
+        withAnimation(.timingCurve(0.3, 0.0, 0.1, 1.0, duration: 1.4)) {
+            portalCover = 0
         }
-
-        // Kembalikan scale secara tersembunyi
-        try? await Task.sleep(for: .seconds(2.1))
-        gateScale = 1.0
+        try? await Task.sleep(for: .seconds(1.4))
     }
 
-    // Fungsi Kembali ke Dunia Nyata
-    private func closeGateAndReturn() async {
+    // Kembali ke dunia nyata
+    private func returnHome() async {
         isTransitioning = true
         defer { isTransitioning = false }
 
-        // 1. Gerbang Menutup Perlahan
-        withAnimation(.easeInOut(duration: 1.0)) {
-            gateOpen = false
-            gateScale = reduceMotion ? 1.0 : 1.05
+        withAnimation(.easeInOut(duration: 0.7)) {
+            portalCover = 1
         }
-
-        // 2. Transisi Alam
-        try? await Task.sleep(for: .seconds(1.1))
+        try? await Task.sleep(for: .seconds(0.8))
         isARActive = false
 
-        // 3. Gerbang Terbuka Kembali Normal
-        withAnimation(.timingCurve(0.4, 0.0, 0.2, 1.0, duration: 1.5)) {
-            gateOpen = true
-            gateScale = 1.0
+        withAnimation(.timingCurve(0.4, 0.0, 0.2, 1.0, duration: 1.1)) {
+            portalCover = 0
         }
-        try? await Task.sleep(for: .seconds(1.5))
+        try? await Task.sleep(for: .seconds(1.1))
     }
 }
 
-// Komponen Visual Gerbang Gotik Seram
-struct GateDoorView: View {
-    var isLeft: Bool
-    
+/// Kabut malam yang menutup layar seperti iris mata, dengan cincin labu
+/// di tepi lubangnya dan hantu kecil di tengah saat tertutup penuh.
+struct PortalTransitionView: View, Animatable {
+    var cover: CGFloat
+    let reduceMotion: Bool
+
+    // Body dihitung ulang tiap frame animasi, jadi cincin dan hantu mengikuti nilai antara
+    var animatableData: CGFloat {
+        get { cover }
+        set { cover = newValue }
+    }
+
     var body: some View {
         GeometryReader { proxy in
+            let diagonal = hypot(proxy.size.width, proxy.size.height)
+            // Reduce Motion: cukup memudar, tanpa iris yang bergerak
+            let holeDiameter = reduceMotion ? 0 : diagonal * 1.15 * (1 - cover)
+
             ZStack {
-                // Background Besi Karatan
-                LinearGradient(
-                    gradient: Gradient(colors: [Color.black, Color(white: 0.08), Color.black]),
-                    startPoint: isLeft ? .leading : .trailing,
-                    endPoint: isLeft ? .trailing : .leading
-                )
-                
-                // Jeruji Besi dengan Tombak Segitiga
-                HStack(spacing: proxy.size.width / 8) {
-                    ForEach(0..<6) { i in
-                        VStack(spacing: -5) {
-                            // Mata Tombak
-                            Image(systemName: "triangle.fill")
-                                .resizable()
-                                .frame(width: 14, height: 25)
-                                .foregroundColor(Color(white: 0.2))
-                                .shadow(color: .black, radius: 2, x: 0, y: 5)
-                            
-                            // Batang Jeruji
-                            Capsule()
-                                .fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [Color.black, Color.gray.opacity(0.6), Color.black]),
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
-                                )
-                                .frame(width: 8)
-                                .shadow(color: .black, radius: 5, x: isLeft ? 3 : -3, y: 0)
+                ZStack {
+                    LinearGradient(colors: [Spooky.dusk, Spooky.night], startPoint: .top, endPoint: .bottom)
+                    RadialGradient(
+                        colors: [Spooky.crimson.opacity(0.8), .clear],
+                        center: .center,
+                        startRadius: 0,
+                        endRadius: diagonal * 0.4
+                    )
+                }
+                .mask {
+                    Rectangle()
+                        .overlay {
+                            Circle()
+                                .frame(width: holeDiameter, height: holeDiameter)
+                                .blur(radius: 24)
+                                .blendMode(.destinationOut)
                         }
-                        // Pola kurva gotik
-                        .padding(.top, CGFloat([80, 50, 25, 10, 0, -10][isLeft ? i : 5-i]))
-                    }
+                        .compositingGroup()
                 }
-                .padding(.horizontal, 15)
-                
-                // Sabuk Gerbang Horizontal
-                VStack {
-                    Rectangle()
-                        .fill(LinearGradient(gradient: Gradient(colors: [Color(white: 0.1), Color.black]), startPoint: .top, endPoint: .bottom))
-                        .frame(height: 20)
-                        .shadow(color: .black, radius: 5, x: 0, y: 5)
-                        .padding(.top, proxy.size.height * 0.35)
-                    
-                    Spacer()
-                    
-                    Rectangle()
-                        .fill(LinearGradient(gradient: Gradient(colors: [Color(white: 0.1), Color.black]), startPoint: .top, endPoint: .bottom))
-                        .frame(height: 30)
-                        .shadow(color: .black, radius: 5, x: 0, y: -5)
-                        .padding(.bottom, proxy.size.height * 0.25)
-                }
-                
-                // Pilar Tepi Batu Kokoh
-                HStack {
-                    if isLeft {
-                        Rectangle()
-                            .fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color(white: 0.15)]), startPoint: .leading, endPoint: .trailing))
-                            .frame(width: 50)
-                            .shadow(color: .black, radius: 15, x: 15, y: 0)
-                        Spacer()
-                    } else {
-                        Spacer()
-                        Rectangle()
-                            .fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color(white: 0.15)]), startPoint: .trailing, endPoint: .leading))
-                            .frame(width: 50)
-                            .shadow(color: .black, radius: 15, x: -15, y: 0)
-                    }
-                }
+
+                // Cincin bercahaya di tepi portal
+                Circle()
+                    .stroke(Spooky.pumpkin, lineWidth: 6)
+                    .blur(radius: 10)
+                    .frame(width: holeDiameter, height: holeDiameter)
+                    .opacity(cover > 0 && cover < 1 ? 0.9 : 0)
+
+                Text(verbatim: "👻")
+                    .font(.system(size: 72))
+                    .shadow(color: Spooky.pumpkin.opacity(0.8), radius: 20)
+                    .scaleEffect(0.6 + cover * 0.4)
+                    .opacity(cover > 0.85 ? Double((cover - 0.85) / 0.15) : 0)
             }
+            .frame(width: proxy.size.width, height: proxy.size.height)
+            .opacity(reduceMotion ? Double(cover) : (cover > 0 ? 1 : 0))
         }
-        .edgesIgnoringSafeArea(.all)
+        .ignoresSafeArea()
+        .accessibilityHidden(true)
     }
 }
 
