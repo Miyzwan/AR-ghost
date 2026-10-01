@@ -38,9 +38,11 @@ nonisolated enum VisionGeometry {
         case .down: return CGPoint(x: 1 - u, y: 1 - v)
         case .downMirrored: return CGPoint(x: u, y: 1 - v)
         case .left: return CGPoint(x: 1 - v, y: u)
-        case .leftMirrored: return CGPoint(x: 1 - v, y: 1 - u)
+        // Orientasi mirrored yang berotasi adalah transpose; jangan
+        // membalik kedua sumbu lagi setelah inverse rotation.
+        case .leftMirrored: return CGPoint(x: v, y: u)
         case .right: return CGPoint(x: v, y: 1 - u)
-        case .rightMirrored: return CGPoint(x: v, y: u)
+        case .rightMirrored: return CGPoint(x: 1 - v, y: 1 - u)
         @unknown default: return CGPoint(x: u, y: v)
         }
     }

@@ -3,263 +3,512 @@
   "strings" : {
     "3D Models" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Model 3D" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model 3D"
+          }
+        }
       }
     },
     "A mischievous ghost is waiting to haunt you. Point your camera at the floor or a table and he'll rise right out of it." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Hantu jahil sedang menunggu untuk menghantuimu. Arahkan kamera ke lantai atau meja, dan dia akan muncul dari sana." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hantu jahil sedang menunggu untuk menghantuimu. Arahkan kamera ke lantai atau meja, dan dia akan muncul dari sana."
+          }
+        }
       }
     },
     "A mischievous ghost is waiting to haunt you. Summon him and he'll rise from behind your head and settle right on top of it." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Hantu jahil sedang menunggu untuk menghantuimu. Panggil dia, dan dia akan muncul dari belakang kepalamu lalu berdiam di atasnya." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hantu jahil sedang menunggu untuk menghantuimu. Panggil dia, dan dia akan muncul dari belakang kepalamu lalu berdiam di atasnya."
+          }
+        }
       }
     },
     "Allow camera access in Settings to summon the ghost." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Izinkan akses kamera di Pengaturan untuk memanggil hantu." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Izinkan akses kamera di Pengaturan untuk memanggil hantu."
+          }
+        }
       }
     },
     "AR Ghost does not collect, store, or share any personal data." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "AR Ghost tidak mengumpulkan, menyimpan, atau membagikan data pribadi apa pun." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AR Ghost tidak mengumpulkan, menyimpan, atau membagikan data pribadi apa pun."
+          }
+        }
       }
     },
     "AR Ghost uses the camera to show ghosts around you and to detect your hand gestures. Camera images are processed on your device and never leave it." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "AR Ghost memakai kamera untuk menampilkan hantu di sekitarmu dan mendeteksi gestur tanganmu. Gambar kamera diproses di perangkatmu dan tidak pernah dikirim ke mana pun." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AR Ghost memakai kamera untuk menampilkan hantu di sekitarmu dan mendeteksi gestur tanganmu. Gambar kamera diproses di perangkatmu dan tidak pernah dikirim ke mana pun."
+          }
+        }
       }
     },
     "BACK TO THE REAL WORLD" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "KEMBALI KE ALAM NYATA" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KEMBALI KE ALAM NYATA"
+          }
+        }
       }
     },
     "by %@, licensed under %@" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "oleh %1$@, lisensi %2$@" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "oleh %1$@, lisensi %2$@"
+          }
+        }
       }
     },
     "Change his form" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Ubah wujudnya" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubah wujudnya"
+          }
+        }
       }
     },
     "Close" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Tutup" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutup"
+          }
+        }
       }
     },
     "Credits" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Kredit" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kredit"
+          }
+        }
       }
-    },
-    "Debug" : {
-      "shouldTranslate" : false
     },
     "Don't be fooled by his cute looks! He loves to settle on top of people's heads and slowly drain the sadness from their aura. If your head suddenly feels heavy, he might be the culprit..." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Jangan tertipu dengan bentuk lucunya! Dia senang menetap di atas kepala manusia dan perlahan-lahan menyedot aura kesedihanmu. Kalau kepalamu tiba-tiba terasa berat, mungkin dia pelakunya..." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jangan tertipu dengan bentuk lucunya! Dia senang menetap di atas kepala manusia dan perlahan-lahan menyedot aura kesedihanmu. Kalau kepalamu tiba-tiba terasa berat, mungkin dia pelakunya..."
+          }
+        }
       }
     },
     "Done" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Selesai" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selesai"
+          }
+        }
       }
     },
     "Find the cute ghost that rises from behind you and settles on top of your head..." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Temukan hantu imut yang muncul dari belakang dan berdiam di atas kepalamu..." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temukan hantu imut yang muncul dari belakang dan berdiam di atas kepalamu..."
+          }
+        }
       }
-    },
-    "Force world mode" : {
-      "shouldTranslate" : false
     },
     "Ghost info" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Info hantu" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Info hantu"
+          }
+        }
       }
     },
     "Hold both hands together in front of the camera until the circle fills up, or press the sparkle button. He might not stay cute..." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Satukan kedua tangan di depan kamera sampai lingkarannya penuh, atau tekan tombol kilau. Dia belum tentu tetap imut..." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satukan kedua tangan di depan kamera sampai lingkarannya penuh, atau tekan tombol kilau. Dia belum tentu tetap imut..."
+          }
+        }
       }
     },
     "LET'S GO" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "AYO MULAI" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AYO MULAI"
+          }
+        }
       }
     },
     "Meet Mister Q" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Kenalan dengan Mister Q" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kenalan dengan Mister Q"
+          }
+        }
       }
     },
     "Mister Q (The Cute Ghost)" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Mister Q (Si Hantu Imut)" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mister Q (Si Hantu Imut)"
+          }
+        }
       }
     },
     "Mister Q (True Form)" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Mister Q (Wujud Asli)" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mister Q (Wujud Asli)"
+          }
+        }
       }
     },
     "Music" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Musik" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Musik"
+          }
+        }
       }
     },
     "NEXT" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "LANJUT" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LANJUT"
+          }
+        }
       }
     },
     "Not Now" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Nanti Saja" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nanti Saja"
+          }
+        }
       }
     },
     "OPEN SETTINGS" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "BUKA PENGATURAN" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BUKA PENGATURAN"
+          }
+        }
       }
     },
     "Photos you take are kept only in memory until you share or save them yourself." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Foto yang kamu ambil hanya disimpan di memori sampai kamu sendiri membagikan atau menyimpannya." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto yang kamu ambil hanya disimpan di memori sampai kamu sendiri membagikan atau menyimpannya."
+          }
+        }
       }
     },
     "Point the front camera at your face." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Arahkan kamera depan ke wajahmu." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arahkan kamera depan ke wajahmu."
+          }
+        }
       }
     },
     "Press the sparkle button to transform him. He might not stay cute..." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Tekan tombol kilau untuk mengubah wujudnya. Dia belum tentu tetap imut..." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekan tombol kilau untuk mengubah wujudnya. Dia belum tentu tetap imut..."
+          }
+        }
       }
     },
     "Privacy" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Privasi" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privasi"
+          }
+        }
       }
     },
     "Punch him away" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Pukul dia" } }
-      }
-    },
-    "SHARE" : {
-      "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "BAGIKAN" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pukul dia"
+          }
+        }
       }
     },
     "Settings" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Pengaturan" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengaturan"
+          }
+        }
+      }
+    },
+    "SHARE" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BAGIKAN"
+          }
+        }
       }
     },
     "Show Tutorial" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Tampilkan Tutorial" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tampilkan Tutorial"
+          }
+        }
       }
     },
     "Skip" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Lewati" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lewati"
+          }
+        }
       }
     },
     "Sound & Haptics" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Suara & Getaran" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suara & Getaran"
+          }
+        }
       }
     },
     "Sound Effects" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Efek Suara" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Efek Suara"
+          }
+        }
       }
     },
     "SUMMON THE GHOST" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "PANGGIL HANTU" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PANGGIL HANTU"
+          }
+        }
       }
     },
     "Summoning the ghost…" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Memanggil hantu…" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memanggil hantu…"
+          }
+        }
       }
     },
     "Swing your hand quickly toward the ghost to knock him flying. You can also just tap him." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Ayunkan tanganmu dengan cepat ke arah hantu untuk membuatnya terlempar. Kamu juga bisa mengetuknya." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayunkan tanganmu dengan cepat ke arah hantu untuk membuatnya terlempar. Kamu juga bisa mengetuknya."
+          }
+        }
       }
     },
     "Take a photo" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Ambil foto" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambil foto"
+          }
+        }
       }
     },
     "Tap the ghost, or swing your hand quickly in front of the camera, to knock him flying." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Ketuk hantu, atau ayunkan tanganmu dengan cepat di depan kamera, untuk membuatnya terlempar." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk hantu, atau ayunkan tanganmu dengan cepat di depan kamera, untuk membuatnya terlempar."
+          }
+        }
       }
     },
     "The app has no accounts, no analytics, no ads, and no tracking." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Aplikasi ini tidak punya akun, analitik, iklan, maupun pelacakan." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikasi ini tidak punya akun, analitik, iklan, maupun pelacakan."
+          }
+        }
       }
     },
     "The camera is paused." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Kamera sedang dijeda." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera sedang dijeda."
+          }
+        }
       }
     },
     "The camera is used only while the ghost is on screen, to show it in augmented reality and to detect your face and hand gestures. All camera images are processed on your device in real time and are never saved or sent anywhere." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Kamera hanya dipakai selama hantu tampil di layar, untuk menampilkannya dalam augmented reality dan mendeteksi wajah serta gestur tanganmu. Semua gambar kamera diproses langsung di perangkatmu dan tidak pernah disimpan atau dikirim ke mana pun." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera hanya dipakai selama hantu tampil di layar, untuk menampilkannya dalam augmented reality dan mendeteksi wajah serta gestur tanganmu. Semua gambar kamera diproses langsung di perangkatmu dan tidak pernah disimpan atau dikirim ke mana pun."
+          }
+        }
       }
     },
     "The ghost couldn't be summoned." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Hantu gagal dipanggil." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hantu gagal dipanggil."
+          }
+        }
       }
     },
     "The ghost needs your camera" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Hantu butuh kameramu" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hantu butuh kameramu"
+          }
+        }
       }
     },
     "This device doesn't support augmented reality." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Perangkat ini tidak mendukung augmented reality." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perangkat ini tidak mendukung augmented reality."
+          }
+        }
       }
     },
     "This is what Mister Q really looks like when he's angry. Clap again quickly, maybe he'll turn cute again..." : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Beginilah wujud asli Mister Q saat sedang marah. Cepat tepuk tangan lagi, siapa tahu dia kembali imut..." } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beginilah wujud asli Mister Q saat sedang marah. Cepat tepuk tangan lagi, siapa tahu dia kembali imut..."
+          }
+        }
       }
     },
     "Transform the ghost" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Ubah wujud hantu" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubah wujud hantu"
+          }
+        }
       }
     },
     "Try Again" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Coba Lagi" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba Lagi"
+          }
+        }
       }
     },
     "Vibration" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Getaran" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getaran"
+          }
+        }
       }
     },
     "Your ghost photo" : {
       "localizations" : {
-        "id" : { "stringUnit" : { "state" : "translated", "value" : "Foto hantumu" } }
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto hantumu"
+          }
+        }
       }
     }
   },
