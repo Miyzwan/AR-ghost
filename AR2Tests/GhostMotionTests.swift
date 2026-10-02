@@ -14,7 +14,7 @@ struct GhostMotionTests {
 
     /// Hantu yang sudah selesai naik dan diam, beserta waktunya.
     private func idleMotion() -> (GhostMotion, TimeInterval) {
-        var motion = GhostMotion(layout: layout, startTime: start)
+        var motion = GhostMotion(layout: layout, style: .still, startTime: start)
         let idleTime = start + GhostMotion.waitDuration + GhostMotion.riseDuration
         _ = motion.update(at: idleTime)
         return (motion, idleTime)
@@ -25,7 +25,7 @@ struct GhostMotionTests {
     }
 
     @Test func risesThenRestsAtRestPosition() {
-        var motion = GhostMotion(layout: layout, startTime: start)
+        var motion = GhostMotion(layout: layout, style: .still, startTime: start)
 
         let waiting = motion.update(at: start + 0.5)
         #expect(motion.phase == .waiting)
@@ -36,18 +36,18 @@ struct GhostMotionTests {
 
         let idle = motion.update(at: start + 3.01)
         #expect(motion.phase == .idle)
-        #expect(isClose(idle.position, layout.restPosition))
+        #expect(isClose(idle.position, .zero))
         #expect(idle.scale == 1)
     }
 
     @Test func largeTimeJumpAdvancesThroughAllPhases() {
-        var motion = GhostMotion(layout: layout, startTime: start)
+        var motion = GhostMotion(layout: layout, style: .still, startTime: start)
         _ = motion.update(at: start + 1000)
         #expect(motion.phase == .idle)
     }
 
     @Test func cannotPunchBeforeIdle() {
-        var motion = GhostMotion(layout: layout, startTime: start)
+        var motion = GhostMotion(layout: layout, style: .still, startTime: start)
         _ = motion.update(at: start + 1.5)
         let accepted = motion.punch(direction: [1, 0, 0], at: start + 1.5)
         #expect(!accepted)
@@ -86,11 +86,11 @@ struct GhostMotionTests {
 
         let knocked = motion.update(at: now + GhostMotion.knockDuration + 0.1)
         #expect(motion.phase == .knockedPause)
-        #expect(isClose(knocked.position, layout.restPosition + [0, layout.knockDistance, 0]))
+        #expect(isClose(knocked.position, [0, layout.knockDistance, 0]))
 
         let back = motion.update(at: now + 3.0)
         #expect(motion.phase == .idle)
-        #expect(isClose(back.position, layout.restPosition))
+        #expect(isClose(back.position, .zero))
         #expect(abs(back.scale - 1) < 0.0001)
     }
 
@@ -147,6 +147,61 @@ struct GhostMotionTests {
         #expect(motion.canPunch(at: grown + 0.01))
         #expect(!motion.canTransform(at: grown + 1))
         #expect(motion.canTransform(at: grown + GhostMotion.transformCooldown))
+    }
+
+    @Test func celebrationReturnsToIdle() {
+        var (motion, now) = idleMotion()
+        let celebrated = motion.celebrate(at: now)
+        #expect(celebrated)
+        let jump = motion.update(at: now + GhostMotion.celebrateDuration / 2)
+        #expect(motion.phase == .celebrating)
+        #expect(jump.position.y > 0)
+
+        let done = motion.update(at: now + GhostMotion.celebrateDuration + 0.01)
+        #expect(motion.phase == .idle)
+        #expect(isClose(done.position, .zero))
+    }
+
+    @Test func relocationHidesWithoutClapCooldown() {
+        var (motion, now) = idleMotion()
+        let started = motion.beginRelocation(at: now)
+        #expect(started)
+        _ = motion.update(at: now + GhostMotion.shrinkDuration + 0.01)
+        #expect(motion.phase == .hidden)
+        let again = motion.beginRelocation(at: now + 2)
+        #expect(!again)
+    }
+
+    @Test func styleMovesTheIdlePose() {
+        var motion = GhostMotion(layout: layout, style: .bob, startTime: start)
+        let idleTime = start + GhostMotion.waitDuration + GhostMotion.riseDuration
+        let a = motion.update(at: idleTime + 0.6)
+        let b = motion.update(at: idleTime + 1.2)
+        #expect(motion.phase == .idle)
+        #expect(!isClose(a.position, b.position))
+    }
+
+    @Test func nudgeHopsThenReturnsToIdle() {
+        var (motion, now) = idleMotion()
+        let nudged = motion.nudge(at: now)
+        #expect(nudged)
+        let hop = motion.update(at: now + GhostMotion.nudgeDuration / 4)
+        #expect(motion.phase == .nudging)
+        #expect(hop.position.y > 0)
+        // Saat sedang mencari perhatian, gestur cerita tidak bisa dimulai ulang
+        let again = motion.nudge(at: now + 0.1)
+        #expect(!again)
+        _ = motion.update(at: now + GhostMotion.nudgeDuration + 0.01)
+        #expect(motion.phase == .idle)
+    }
+
+    @Test func anticipationLeansTowardTheViewer() {
+        var (motion, now) = idleMotion()
+        let calm = motion.update(at: now)
+        motion.anticipation = 1
+        let eager = motion.update(at: now)
+        #expect(eager.position.z > calm.position.z)
+        #expect(eager.scale > calm.scale)
     }
 
     @Test func revealIsIgnoredOutsideHiddenPhase() {

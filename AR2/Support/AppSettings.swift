@@ -13,6 +13,8 @@ enum AppSettings {
     static let hasSeenOnboarding = "hasSeenOnboarding"
     /// `Ghost.id` yang dipilih di Home.
     static let selectedGhost = "selectedGhost"
+    /// `Ghost.id` yang ceritanya sudah selesai, dipisah koma (lihat `StoryCompletion`).
+    static let completedStories = "completedStories"
 
     /// Nilai awal sebelum pengguna mengubah apa pun.
     static func registerDefaults() {

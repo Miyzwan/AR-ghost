@@ -20,6 +20,14 @@ final class SoundManager {
     private var bgmPlayer: AVAudioPlayer?
     // Satu player per efek (di-preload) supaya efek berbeda tidak saling memotong
     private var effectPlayers: [Effect: AVAudioPlayer] = [:]
+    /// Efek `.wav` per nama (cheer, jingle, teleport), dimuat saat pertama dipakai atau lewat `preload`.
+    private var soundPlayers: [String: AVAudioPlayer] = [:]
+    // "Suara bicara" hantu: satu blip pendek yang diputar dengan nada berbeda tiap hantu
+    private let voiceEngine = AVAudioEngine()
+    private let voiceNode = AVAudioPlayerNode()
+    private let voicePitch = AVAudioUnitVarispeed()
+    private var voiceBuffers: [String: AVAudioPCMBuffer] = [:]
+    private var isVoiceEngineReady = false
     private var interruptionObserver: NSObjectProtocol?
     private var isAppActive = true
 
@@ -67,6 +75,33 @@ final class SoundManager {
         player.play()
     }
 
+    /// Memuat efek lebih awal supaya tidak tersendat saat pertama dimainkan.
+    func preload(_ names: [String]) {
+        for name in names where soundPlayers[name] == nil {
+            soundPlayers[name] = makePlayer(named: name, extension: "wav")
+        }
+    }
+
+    /// Memainkan efek `.wav` dari `AR2/Sounds`.
+    func play(sound name: String, volume: Float = 1) {
+        guard isSoundEffectsEnabled else { return }
+        if soundPlayers[name] == nil {
+            soundPlayers[name] = makePlayer(named: name, extension: "wav")
+        }
+        guard let player = soundPlayers[name] else { return }
+        player.volume = volume
+        player.currentTime = 0
+        player.play()
+    }
+
+    /// Satu suku kata "bicara" hantu. Nadanya sedikit diacak supaya terdengar seperti celoteh.
+    func playVoice(_ voice: GhostVoice) {
+        guard isSoundEffectsEnabled, let buffer = voiceBuffer(named: voice.blip), prepareVoiceEngine(format: buffer.format) else { return }
+        voicePitch.rate = voice.pitch * Float.random(in: 0.92...1.08)
+        voiceNode.scheduleBuffer(buffer, at: nil, options: .interrupts)
+        if !voiceNode.isPlaying { voiceNode.play() }
+    }
+
     /// Suara shutter kamera bawaan sistem.
     func playShutter() {
         guard isSoundEffectsEnabled else { return }
@@ -89,9 +124,9 @@ final class SoundManager {
         }
     }
 
-    private func makePlayer(named name: String) -> AVAudioPlayer? {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3") else {
-            Logger.audio.error("File audio '\(name).mp3' tidak ditemukan di bundle.")
+    private func makePlayer(named name: String, extension ext: String = "mp3") -> AVAudioPlayer? {
+        guard let url = Bundle.main.url(forResource: name, withExtension: ext) else {
+            Logger.audio.error("File audio '\(name).\(ext)' tidak ditemukan di bundle.")
             return nil
         }
         do {
@@ -99,8 +134,46 @@ final class SoundManager {
             player.prepareToPlay()
             return player
         } catch {
-            Logger.audio.error("Gagal memuat '\(name).mp3': \(error.localizedDescription)")
+            Logger.audio.error("Gagal memuat '\(name).\(ext)': \(error.localizedDescription)")
             return nil
+        }
+    }
+
+    private func voiceBuffer(named name: String) -> AVAudioPCMBuffer? {
+        if let buffer = voiceBuffers[name] { return buffer }
+        guard let url = Bundle.main.url(forResource: name, withExtension: "wav") else {
+            Logger.audio.error("File audio '\(name).wav' tidak ditemukan di bundle.")
+            return nil
+        }
+        do {
+            let file = try AVAudioFile(forReading: url)
+            guard let buffer = AVAudioPCMBuffer(pcmFormat: file.processingFormat, frameCapacity: AVAudioFrameCount(file.length)) else { return nil }
+            try file.read(into: buffer)
+            voiceBuffers[name] = buffer
+            return buffer
+        } catch {
+            Logger.audio.error("Gagal memuat '\(name).wav': \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    /// Menyambungkan node sekali, lalu menyalakan ulang mesin bila berhenti (mis. setelah interupsi).
+    private func prepareVoiceEngine(format: AVAudioFormat) -> Bool {
+        if !isVoiceEngineReady {
+            voiceEngine.attach(voiceNode)
+            voiceEngine.attach(voicePitch)
+            voiceEngine.connect(voiceNode, to: voicePitch, format: format)
+            voiceEngine.connect(voicePitch, to: voiceEngine.mainMixerNode, format: format)
+            voiceNode.volume = 0.6
+            isVoiceEngineReady = true
+        }
+        guard !voiceEngine.isRunning else { return true }
+        do {
+            try voiceEngine.start()
+            return true
+        } catch {
+            Logger.audio.error("Gagal menyalakan mesin suara: \(error.localizedDescription)")
+            return false
         }
     }
 }

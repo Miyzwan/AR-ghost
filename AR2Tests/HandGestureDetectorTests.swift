@@ -20,13 +20,13 @@ struct HandGestureDetectorTests {
         (0...steps).map { i in
             let t = Double(i) / Double(steps)
             let point = CGPoint(x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t)
-            return detector.process(hands: [point], ghostPoint: ghost ?? farFromGhost, canPunch: canPunch, canClap: true, at: Double(i) * interval)
+            return detector.process(hands: [HandSample(palm: point)], ghostPoint: ghost ?? farFromGhost, canPunch: canPunch, canClap: true, at: Double(i) * interval)
         }
     }
 
     @Test func noHandsResetsState() {
         var detector = HandGestureDetector()
-        _ = detector.process(hands: [CGPoint(x: 0.5, y: 0.5)], ghostPoint: nil, canPunch: true, canClap: true, at: 0)
+        _ = detector.process(hands: [HandSample(palm: CGPoint(x: 0.5, y: 0.5))], ghostPoint: nil, canPunch: true, canClap: true, at: 0)
         #expect(detector.hasState)
 
         let result = detector.process(hands: [], ghostPoint: nil, canPunch: true, canClap: true, at: 0.1)
@@ -72,7 +72,7 @@ struct HandGestureDetectorTests {
 
     @Test func clapMustBeHeld() {
         var detector = HandGestureDetector()
-        let hands = [CGPoint(x: 0.48, y: 0.5), CGPoint(x: 0.52, y: 0.5)]
+        let hands = [HandSample(palm: CGPoint(x: 0.48, y: 0.5)), HandSample(palm: CGPoint(x: 0.52, y: 0.5))]
 
         let first = detector.process(hands: hands, ghostPoint: nil, canPunch: true, canClap: true, at: 0)
         #expect(first.clapProgress == 0)
@@ -87,8 +87,8 @@ struct HandGestureDetectorTests {
 
     @Test func separatingHandsRestartsClap() {
         var detector = HandGestureDetector()
-        let together = [CGPoint(x: 0.48, y: 0.5), CGPoint(x: 0.52, y: 0.5)]
-        let apart = [CGPoint(x: 0.1, y: 0.5), CGPoint(x: 0.9, y: 0.5)]
+        let together = [HandSample(palm: CGPoint(x: 0.48, y: 0.5)), HandSample(palm: CGPoint(x: 0.52, y: 0.5))]
+        let apart = [HandSample(palm: CGPoint(x: 0.1, y: 0.5)), HandSample(palm: CGPoint(x: 0.9, y: 0.5))]
 
         _ = detector.process(hands: together, ghostPoint: nil, canPunch: true, canClap: true, at: 0)
         let separated = detector.process(hands: apart, ghostPoint: nil, canPunch: true, canClap: true, at: 0.4)
@@ -101,10 +101,89 @@ struct HandGestureDetectorTests {
 
     @Test func noClapWhenTransformNotAllowed() {
         var detector = HandGestureDetector()
-        let hands = [CGPoint(x: 0.48, y: 0.5), CGPoint(x: 0.52, y: 0.5)]
+        let hands = [HandSample(palm: CGPoint(x: 0.48, y: 0.5)), HandSample(palm: CGPoint(x: 0.52, y: 0.5))]
         _ = detector.process(hands: hands, ghostPoint: nil, canPunch: true, canClap: false, at: 0)
         let later = detector.process(hands: hands, ghostPoint: nil, canPunch: true, canClap: false, at: 1)
         #expect(later.clapProgress == 0)
         #expect(!later.didClap)
+    }
+
+    // MARK: - Gestur cerita
+
+    @Test func heldShapeCompletesExpectedGesture() {
+        var detector = HandGestureDetector()
+        let peace = [HandSample(palm: CGPoint(x: 0.5, y: 0.5), shape: .peace)]
+        let first = detector.process(hands: peace, ghostPoint: nil, expected: .peace, canPunch: false, canClap: true, at: 0)
+        #expect(!first.didComplete)
+        let half = detector.process(hands: peace, ghostPoint: nil, expected: .peace, canPunch: false, canClap: true, at: 0.25)
+        #expect(abs(half.gestureProgress - 0.5) < 0.0001)
+        let done = detector.process(hands: peace, ghostPoint: nil, expected: .peace, canPunch: false, canClap: true, at: 0.5)
+        #expect(done.didComplete)
+    }
+
+    @Test func otherShapeDoesNotCount() {
+        var detector = HandGestureDetector()
+        let fist = [HandSample(palm: CGPoint(x: 0.5, y: 0.5), shape: .fist)]
+        let results = (0...10).map { i in
+            detector.process(hands: fist, ghostPoint: nil, expected: .peace, canPunch: false, canClap: true, at: Double(i) * 0.1)
+        }
+        #expect(results.allSatisfy { !$0.didComplete && $0.gestureProgress == 0 })
+    }
+
+    @Test func briefDropoutKeepsHoldProgress() {
+        var detector = HandGestureDetector()
+        let open = [HandSample(palm: CGPoint(x: 0.5, y: 0.5), shape: .open)]
+        let unknown = [HandSample(palm: CGPoint(x: 0.5, y: 0.5), shape: .unknown)]
+        _ = detector.process(hands: open, ghostPoint: nil, expected: .openPalm, canPunch: false, canClap: true, at: 0)
+        _ = detector.process(hands: unknown, ghostPoint: nil, expected: .openPalm, canPunch: false, canClap: true, at: 0.2)
+        let done = detector.process(hands: open, ghostPoint: nil, expected: .openPalm, canPunch: false, canClap: true, at: 0.5)
+        #expect(done.didComplete)
+    }
+
+    @Test func waveNeedsThreeReversals() {
+        var detector = HandGestureDetector()
+        let xs: [Double] = [0.3, 0.3, 0.6, 0.6, 0.6, 0.3, 0.3, 0.3, 0.6, 0.6, 0.6, 0.3, 0.3, 0.3]
+        var results: [HandGestureDetector.Result] = []
+        for (i, x) in xs.enumerated() {
+            let hand = HandSample(palm: CGPoint(x: x, y: 0.5), shape: .open)
+            results.append(detector.process(hands: [hand], ghostPoint: nil, expected: .wave, canPunch: false, canClap: true, at: Double(i) * 0.08))
+        }
+        let firstDone = results.firstIndex { $0.didComplete }
+        #expect(firstDone != nil)
+        // Butuh setidaknya kiri-kanan-kiri-kanan; satu ayunan saja tidak cukup
+        #expect(results.prefix(6).allSatisfy { !$0.didComplete })
+    }
+
+    @Test func touchingTheGhostMustBeHeld() {
+        var detector = HandGestureDetector()
+        let ghost = CGPoint(x: 0.5, y: 0.4)
+        let hand = [HandSample(palm: CGPoint(x: 0.52, y: 0.42))]
+        let early = detector.process(hands: hand, ghostPoint: ghost, expected: .touchGhost, canPunch: false, canClap: true, at: 0)
+        #expect(!early.didComplete)
+        let mid = detector.process(hands: hand, ghostPoint: ghost, expected: .touchGhost, canPunch: false, canClap: true, at: 0.4)
+        #expect(!mid.didComplete)
+        let done = detector.process(hands: hand, ghostPoint: ghost, expected: .touchGhost, canPunch: false, canClap: true, at: 0.8)
+        #expect(done.didComplete)
+    }
+
+    @Test func coveringTheFaceCountsEvenWhenTrackingIsLost() {
+        var detector = HandGestureDetector()
+        let face = CGPoint(x: 0.5, y: 0.4)
+        let hands = [HandSample(palm: CGPoint(x: 0.42, y: 0.4)), HandSample(palm: CGPoint(x: 0.58, y: 0.4))]
+        _ = detector.process(hands: hands, ghostPoint: nil, facePoint: face, expected: .hideFace, canPunch: false, canClap: false, at: 0)
+        // Wajah tertutup: ARKit kehilangan wajah, tangan pun tidak terdeteksi lagi
+        _ = detector.process(hands: [], ghostPoint: nil, facePoint: nil, expected: .hideFace, canPunch: false, canClap: false, at: 0.25)
+        let done = detector.process(hands: [], ghostPoint: nil, facePoint: nil, expected: .hideFace, canPunch: false, canClap: false, at: 0.5)
+        #expect(done.didComplete)
+    }
+
+    @Test func handGestureStepDisablesPunch() {
+        var detector = HandGestureDetector()
+        var results: [HandGestureDetector.Result] = []
+        for i in 0...3 {
+            let hand = HandSample(palm: CGPoint(x: 0.1 + 0.8 * Double(i) / 3, y: 0.5), shape: .open)
+            results.append(detector.process(hands: [hand], ghostPoint: nil, expected: .wave, canPunch: true, canClap: true, at: Double(i) * 0.08))
+        }
+        #expect(results.allSatisfy { $0.punchDirection == nil })
     }
 }

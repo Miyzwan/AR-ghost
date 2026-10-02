@@ -48,38 +48,70 @@ nonisolated enum VisionGeometry {
     }
 }
 
-/// Menjalankan deteksi pose tangan Vision di antrean background.
+/// Hasil satu frame Vision. Semua titik dalam koordinat gambar mentah kamera (ternormalisasi, origin kiri-atas).
+nonisolated struct VisionFrame: Sendable {
+    struct Hand: Sendable {
+        var palm: CGPoint
+        var shape: HandShape
+    }
+
+    /// Titik tubuh bagian atas, bila diminta dan terdeteksi.
+    struct Body: Sendable {
+        var leftShoulder: CGPoint?
+        var rightShoulder: CGPoint?
+        var neck: CGPoint?
+    }
+
+    var hands: [Hand] = []
+    var body: Body?
+}
+
+/// Menjalankan deteksi pose tangan (dan bila diminta, pose tubuh) Vision di antrean background.
 nonisolated final class HandPoseProcessor: @unchecked Sendable {
-    // `request` hanya disentuh dari `queue`
-    private let request: VNDetectHumanHandPoseRequest
+    // Request hanya disentuh dari `queue`
+    private let handRequest: VNDetectHumanHandPoseRequest
+    private let bodyRequest = VNDetectHumanBodyPoseRequest()
     private let queue = DispatchQueue(label: "AR2.handPose", qos: .userInitiated)
 
     init() {
-        request = VNDetectHumanHandPoseRequest()
-        request.maximumHandCount = 2 // Deteksi 2 tangan untuk gestur tepuk
+        handRequest = VNDetectHumanHandPoseRequest()
+        handRequest.maximumHandCount = 2 // Deteksi 2 tangan untuk gestur tepuk
     }
 
-    /// Titik tengah telapak tiap tangan, dalam koordinat gambar mentah kamera (ternormalisasi, origin kiri-atas).
-    func detectHands(in pixelBuffer: CVPixelBuffer, orientation: CGImagePropertyOrientation) async -> [CGPoint] {
+    /// - Parameter includeBody: jalankan juga pose tubuh (untuk hantu di pundak/dada).
+    func detect(in pixelBuffer: CVPixelBuffer, orientation: CGImagePropertyOrientation, includeBody: Bool) async -> VisionFrame {
         nonisolated(unsafe) let buffer = pixelBuffer
         return await withCheckedContinuation { continuation in
             queue.async { [self] in
-                continuation.resume(returning: detect(in: buffer, orientation: orientation))
+                continuation.resume(returning: detectSync(in: buffer, orientation: orientation, includeBody: includeBody))
             }
         }
     }
 
-    private func detect(in pixelBuffer: CVPixelBuffer, orientation: CGImagePropertyOrientation) -> [CGPoint] {
+    private func detectSync(in pixelBuffer: CVPixelBuffer, orientation: CGImagePropertyOrientation, includeBody: Bool) -> VisionFrame {
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: orientation, options: [:])
+        let requests: [VNRequest] = includeBody ? [handRequest, bodyRequest] : [handRequest]
         do {
-            try handler.perform([request])
+            try handler.perform(requests)
         } catch {
             Logger.vision.error("Vision gagal: \(error.localizedDescription)")
-            return []
+            return VisionFrame()
         }
-        return (request.results ?? [])
-            .compactMap(Self.palmCenter(of:))
-            .map { VisionGeometry.rawImagePoint(fromVision: $0, orientation: orientation) }
+
+        let toRaw = { (point: CGPoint) in VisionGeometry.rawImagePoint(fromVision: point, orientation: orientation) }
+        var frame = VisionFrame()
+        frame.hands = (handRequest.results ?? []).compactMap { observation in
+            guard let palm = Self.palmCenter(of: observation) else { return nil }
+            return VisionFrame.Hand(palm: toRaw(palm), shape: HandShapeClassifier.classify(Self.joints(of: observation)))
+        }
+        if includeBody, let body = bodyRequest.results?.first {
+            let point = { (joint: VNHumanBodyPoseObservation.JointName) -> CGPoint? in
+                guard let p = try? body.recognizedPoint(joint), p.confidence > 0.3 else { return nil }
+                return toRaw(p.location)
+            }
+            frame.body = VisionFrame.Body(leftShoulder: point(.leftShoulder), rightShoulder: point(.rightShoulder), neck: point(.neck))
+        }
+        return frame
     }
 
     /// Rata-rata 11 titik (pergelangan + 2 sendi pangkal tiap jari) supaya tracking stabil di tengah telapak.
@@ -105,6 +137,22 @@ nonisolated final class HandPoseProcessor: @unchecked Sendable {
         return CGPoint(
             x: points.map(\.x).reduce(0, +) / count,
             y: points.map(\.y).reduce(0, +) / count
+        )
+    }
+
+    /// Sendi untuk `HandShapeClassifier`, masih di ruang Vision (rasio jarak tidak berubah oleh orientasi).
+    private static func joints(of observation: VNHumanHandPoseObservation) -> HandJoints {
+        let point = { (joint: VNHumanHandPoseObservation.JointName) -> CGPoint? in
+            guard let p = try? observation.recognizedPoint(joint), p.confidence > 0.3 else { return nil }
+            return p.location
+        }
+        return HandJoints(
+            wrist: point(.wrist),
+            thumbTip: point(.thumbTip),
+            index: .init(tip: point(.indexTip), pip: point(.indexPIP), mcp: point(.indexMCP)),
+            middle: .init(tip: point(.middleTip), pip: point(.middlePIP), mcp: point(.middleMCP)),
+            ring: .init(tip: point(.ringTip), pip: point(.ringPIP), mcp: point(.ringMCP)),
+            little: .init(tip: point(.littleTip), pip: point(.littlePIP), mcp: point(.littleMCP))
         )
     }
 }

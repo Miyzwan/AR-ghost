@@ -6,17 +6,27 @@
 import CoreGraphics
 import Foundation
 
-/// Mengubah posisi tangan per frame Vision menjadi gestur "pukul" dan "tepuk".
-/// Semua titik ternormalisasi terhadap layar (0...1, origin kiri-atas).
+/// Satu tangan dari frame Vision: titik tengah telapak (ternormalisasi terhadap layar) dan bentuknya.
+struct HandSample: Equatable {
+    var palm: CGPoint
+    var shape: HandShape = .unknown
+}
+
+/// Mengubah tangan per frame Vision menjadi gestur: tepuk (ganti wujud), tinju, dan gestur tangan
+/// yang diminta langkah cerita. Semua titik ternormalisasi terhadap layar (0...1, origin kiri-atas).
 struct HandGestureDetector {
     struct Result: Equatable {
         /// Posisi tangan yang sudah dihaluskan (untuk indikator debug).
         var handPoint: CGPoint?
         /// 0...1 selama dua tangan ditahan menyatu.
         var clapProgress: Double = 0
+        /// 0...1 menuju gestur cerita yang diminta.
+        var gestureProgress: Double = 0
         /// Arah pukulan di ruang layar (vektor satuan, sumbu y ke bawah).
         var punchDirection: CGVector?
         var didClap = false
+        /// Gestur cerita yang diminta (selain tinju) sudah selesai.
+        var didComplete = false
     }
 
     var punchVelocityThreshold: Double = 1.5     // Kecepatan minimum pukulan (layar per detik)
@@ -26,38 +36,66 @@ struct HandGestureDetector {
     var clapHoldDuration: TimeInterval = 0.8     // Harus ditahan selama ini
     var smoothingFactor: Double = 0.4            // EMA: 40% posisi baru, 60% posisi lama
     var historySize = 5
+    var touchRadius: Double = 0.15               // Telapak dianggap menyentuh hantu
+    var faceCoverRadius: Double = 0.22           // Tangan dianggap menutupi wajah
+    /// Wajah hilang sesaat setelah tangan menutupinya juga dihitung (ARKit kehilangan wajah yang tertutup).
+    var faceLostGrace: TimeInterval = 1.5
+    static let waveReversals = 3
 
     private var smoothedPoint: CGPoint?
     private var history: [(point: CGPoint, time: TimeInterval)] = []
     private var clapStart: TimeInterval?
+    private var hold = HoldTimer(duration: 0.5)
+    private var waveCounter = ReversalCounter(threshold: 0.04, window: 1.2)
+    private var lastFaceCovered: TimeInterval?
+    private var expected: GhostGesture?
 
     var hasState: Bool {
-        smoothedPoint != nil || !history.isEmpty || clapStart != nil
+        smoothedPoint != nil || !history.isEmpty || clapStart != nil || hold.isActive
     }
 
     mutating func reset() {
         smoothedPoint = nil
         history.removeAll()
         clapStart = nil
+        hold.reset()
+        waveCounter.reset()
+        lastFaceCovered = nil
     }
 
     /// - Parameters:
-    ///   - hands: titik tengah telapak tiap tangan yang terdeteksi.
-    ///   - ghostPoint: posisi hantu di layar, untuk threshold pukulan yang lebih mudah di dekatnya.
+    ///   - hands: tangan yang terdeteksi di frame ini.
+    ///   - ghostPoint: posisi hantu di layar, untuk tinju dan sentuhan.
+    ///   - facePoint: posisi wajah di layar; `nil` bila wajah tidak terlacak.
+    ///   - expected: gestur yang diminta langkah cerita (hanya gestur tangan yang diproses di sini).
     mutating func process(
-        hands: [CGPoint],
+        hands: [HandSample],
         ghostPoint: CGPoint?,
+        facePoint: CGPoint? = nil,
+        expected newExpected: GhostGesture? = nil,
         canPunch: Bool,
         canClap: Bool,
         at time: TimeInterval
     ) -> Result {
-        guard let hand = hands.first else {
-            reset()
-            return Result()
+        if newExpected != expected {
+            expected = newExpected
+            hold.reset()
+            waveCounter.reset()
+            lastFaceCovered = nil
+            hold.duration = newExpected == .touchGhost ? 0.8 : 0.5
+        }
+
+        guard let hand = hands.first?.palm else {
+            smoothedPoint = nil
+            history.removeAll()
+            clapStart = nil
+            // Cilukba: tangan bisa ikut hilang saat menutupi kamera dan wajah
+            let progress = expected == .hideFace ? storyProgress(hands: [], ghostPoint: ghostPoint, facePoint: facePoint, time: time) : 0
+            return finish(Result(gestureProgress: progress))
         }
 
         // --- Gestur tepuk: dua tangan menyatu dan ditahan ---
-        if hands.count >= 2, canClap, distance(hands[0], hands[1]) < clapDistance {
+        if hands.count >= 2, canClap, distance(hands[0].palm, hands[1].palm) < clapDistance {
             let start = clapStart ?? time
             clapStart = start
             let progress = min((time - start) / clapHoldDuration, 1)
@@ -69,7 +107,6 @@ struct HandGestureDetector {
         }
         clapStart = nil
 
-        // --- Gestur pukul: kecepatan tangan pertama melewati threshold ---
         let smoothed: CGPoint
         if let previous = smoothedPoint {
             smoothed = CGPoint(
@@ -86,6 +123,12 @@ struct HandGestureDetector {
         }
 
         var result = Result(handPoint: smoothed)
+        if expected?.isHandGesture == true, expected != .punch {
+            result.gestureProgress = storyProgress(hands: hands, ghostPoint: ghostPoint, facePoint: facePoint, time: time)
+            return finish(result)
+        }
+
+        // --- Gestur pukul: kecepatan tangan pertama melewati threshold ---
         guard canPunch, history.count >= 2, let oldest = history.first else { return result }
 
         let dt = time - oldest.time
@@ -102,6 +145,48 @@ struct HandGestureDetector {
         result.punchDirection = CGVector(dx: dx / length, dy: dy / length)
         history.removeAll()
         return result
+    }
+
+    /// Progres 0...1 gestur tangan yang diminta cerita.
+    private mutating func storyProgress(hands: [HandSample], ghostPoint: CGPoint?, facePoint: CGPoint?, time: TimeInterval) -> Double {
+        guard let gesture = expected else { return 0 }
+        switch gesture {
+        case .wave:
+            guard let point = smoothedPoint, hands.first?.shape != .fist else { return 0 }
+            let count = waveCounter.update(Double(point.x), at: time)
+            return Double(count) / Double(Self.waveReversals)
+
+        case .touchGhost:
+            let touching = ghostPoint.map { ghost in hands.contains { distance($0.palm, ghost) < touchRadius } } ?? false
+            return hold.update(matching: touching, at: time)
+
+        case .hideFace:
+            var covered = false
+            if let face = facePoint {
+                covered = hands.count >= 2 && hands.prefix(2).allSatisfy { distance($0.palm, face) < faceCoverRadius }
+            } else if let last = lastFaceCovered {
+                // Wajah tertutup sampai tidak terlacak lagi
+                covered = time - last < faceLostGrace
+            }
+            if covered, facePoint != nil {
+                lastFaceCovered = time
+            }
+            return hold.update(matching: covered, at: time)
+
+        default:
+            guard let shape = gesture.handShape else { return 0 }
+            return hold.update(matching: hands.contains { $0.shape == shape }, at: time)
+        }
+    }
+
+    private mutating func finish(_ result: Result) -> Result {
+        guard result.gestureProgress >= 1 else { return result }
+        var done = result
+        done.didComplete = true
+        hold.reset()
+        waveCounter.reset()
+        lastFaceCovered = nil
+        return done
     }
 
     private func distance(_ a: CGPoint, _ b: CGPoint) -> Double {

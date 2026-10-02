@@ -7,7 +7,7 @@ import SceneKit
 import SwiftUI
 import os
 
-/// Model 3D hantu yang melayang dan bergoyang di Home (tanpa kamera/AR). Saat hantu lain dipilih,
+/// Model 3D hantu yang melayang dengan gerak khasnya di Home (tanpa kamera/AR). Saat hantu lain dipilih,
 /// beri `.id(ghost.id)` agar view dibuat ulang dan modelnya dimuat lagi.
 ///
 /// Sengaja memakai SceneKit, bukan RealityView: RealityView berkamera virtual yang tampil
@@ -49,7 +49,7 @@ struct GhostHeroView: View {
 private enum GhostHeroScene {
     private static let height: Float = 0.2
 
-    /// Memuat USDZ, menormalkan tingginya, lalu menambahkan kamera, cahaya, dan goyangan.
+    /// Memuat USDZ, menormalkan tingginya, lalu menambahkan kamera, cahaya, dan gerak khas.
     static func make(for ghost: Ghost, animated: Bool) -> SCNScene? {
         guard let url = Bundle.main.url(forResource: ghost.id, withExtension: "usdz") else {
             Logger.ar.error("File \(ghost.id).usdz tidak ditemukan di bundle.")
@@ -79,7 +79,7 @@ private enum GhostHeroScene {
             -(minBound.z + maxBound.z) / 2 * factor
         )
 
-        // Pivot terpisah supaya goyangan tidak bentrok dengan animasi bawaan model
+        // Pivot terpisah supaya gerak khas tidak bentrok dengan animasi bawaan model
         let pivot = SCNNode()
         pivot.addChildNode(model)
 
@@ -111,18 +111,16 @@ private enum GhostHeroScene {
         scene.rootNode.addChildNode(key)
 
         if animated {
-            let swayRight = SCNAction.group([
-                .rotateTo(x: 0, y: 0.4, z: 0, duration: 2.6),
-                .moveBy(x: 0, y: 0.02, z: 0, duration: 2.6),
-            ])
-            let swayLeft = SCNAction.group([
-                .rotateTo(x: 0, y: -0.4, z: 0, duration: 2.6),
-                .moveBy(x: 0, y: -0.02, z: 0, duration: 2.6),
-            ])
-            swayRight.timingMode = .easeInEaseOut
-            swayLeft.timingMode = .easeInEaseOut
-            pivot.eulerAngles.y = -0.4
-            pivot.runAction(.repeatForever(.sequence([swayRight, swayLeft])))
+            // Gerak khas yang sama dengan di AR (`MotionStyle`), dalam satuan tinggi hantu
+            let style = ghost.style
+            let start = CACurrentMediaTime()
+            let height = height
+            pivot.runAction(.repeatForever(.customAction(duration: 1) { @Sendable node, _ in
+                let pose = style.pose(at: CACurrentMediaTime() - start)
+                node.simdPosition = pose.offset * height
+                node.simdOrientation = pose.rotation
+                node.simdScale = SIMD3(repeating: pose.scale)
+            }))
         }
         return scene
     }

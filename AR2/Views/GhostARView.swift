@@ -12,6 +12,9 @@ struct GhostARView: View {
     @State private var isCapturing = false
     @State private var flashOpacity = 0.0
     @State private var showSettings = false
+    @State private var isCheerVisible = false
+    @State private var confettiStart: Date?
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage(AppSettings.hapticsEnabled) private var hapticsEnabled = true
 
     private var accent: SpookyAccent { .for(model.activeGhost) }
@@ -30,13 +33,27 @@ struct GhostARView: View {
 
             SpookyVignetteView(accent: accent)
 
-            #if DEBUG
-            HandDebugView(point: model.handPoint)
-            #endif
-
             if model.clapProgress > 0 {
-                ClapIndicatorView(progress: model.clapProgress)
+                GestureProgressRing(progress: model.clapProgress, symbol: "hands.clap.fill")
                     .transition(.scale.combined(with: .opacity))
+            } else if model.gestureProgress > 0, let gesture = model.storyGesture {
+                GestureProgressRing(progress: model.gestureProgress, symbol: gesture.symbol)
+                    .transition(.scale.combined(with: .opacity))
+            }
+
+            // Seruan saat gestur berhasil, di atas hantu
+            if isCheerVisible, let cheer = model.cheer {
+                CheerPopView(text: cheer)
+                    .id(model.storySuccessCount)
+                    .frame(maxHeight: .infinity, alignment: .top)
+                    .padding(.top, 140)
+                    .transition(.scale(scale: 0.2).combined(with: .opacity))
+                    .allowsHitTesting(false)
+            }
+
+            if let confettiStart {
+                ConfettiView(start: confettiStart)
+                    .ignoresSafeArea()
             }
 
             statusOverlay
@@ -48,6 +65,9 @@ struct GhostARView: View {
 
                 if model.showGhostInfo {
                     GhostInfoCard(ghost: model.activeGhost)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                } else if model.status == .running && model.isStoryVisible {
+                    storyCard
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
 
@@ -65,12 +85,32 @@ struct GhostARView: View {
         .environment(\.spookyAccent, accent)
         .animation(.spring(), value: model.showGhostInfo)
         .animation(.easeInOut(duration: 0.2), value: model.clapProgress > 0)
+        .animation(.easeInOut(duration: 0.2), value: model.gestureProgress > 0)
+        .animation(.spring(), value: model.isStoryVisible)
+        .animation(.spring(), value: model.storyStepIndex)
+        .animation(.spring(), value: model.isAwaitingGesture)
+        .animation(.spring(), value: model.isStoryComplete)
         .animation(.easeInOut(duration: 0.6), value: accent)
         .sensoryFeedback(trigger: model.punchCount) { _, _ in
             hapticsEnabled ? .impact(weight: .heavy) : nil
         }
         .sensoryFeedback(trigger: model.transformCount) { _, _ in
             hapticsEnabled ? .success : nil
+        }
+        .sensoryFeedback(trigger: model.storySuccessCount) { _, _ in
+            hapticsEnabled ? .success : nil
+        }
+        .task(id: model.storySuccessCount) {
+            guard model.storySuccessCount > 0 else { return }
+            withAnimation(.spring(duration: 0.35, bounce: 0.6)) { isCheerVisible = true }
+            try? await Task.sleep(for: .seconds(1.1))
+            withAnimation(.easeIn(duration: 0.25)) { isCheerVisible = false }
+        }
+        .task(id: model.isStoryComplete) {
+            guard model.isStoryComplete, !reduceMotion else { return }
+            confettiStart = .now
+            try? await Task.sleep(for: .seconds(4))
+            confettiStart = nil
         }
         .sheet(item: $capturedPhoto) { photo in
             PhotoPreviewView(photo: photo)
@@ -94,6 +134,24 @@ struct GhostARView: View {
             flashOpacity = 0
         }
         capturedPhoto = CapturedPhoto(image: PhotoComposer.compose(snapshot, accent: accent))
+    }
+
+    // --- Cerita hantu: kalimat dan petunjuk gestur, atau penutup ---
+    @ViewBuilder
+    private var storyCard: some View {
+        if model.isStoryComplete {
+            StoryFinaleView(line: model.storyLine, nextGhost: model.nextGhost)
+        } else {
+            StoryCaptionView(
+                ghost: model.activeGhost,
+                line: model.storyLine,
+                gesture: model.storyGesture,
+                step: model.storyStepIndex,
+                stepCount: model.storyStepCount,
+                needsHand: model.needsHand,
+                nudgeCount: model.nudgeCount
+            )
+        }
     }
 
     // --- Bar atas: keluar dan pengaturan ---
@@ -245,60 +303,3 @@ private struct GhostInfoCard: View {
         }
     }
 }
-
-// --- Indikator gestur tepuk (menyatukan tangan) ---
-private struct ClapIndicatorView: View {
-    let progress: Double
-    @Environment(\.spookyAccent) private var accent
-
-    var body: some View {
-        ZStack {
-            Circle()
-                .fill(Spooky.night.opacity(0.35))
-
-            Circle()
-                .stroke(Spooky.mist.opacity(0.25), lineWidth: 8)
-
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(accent.color, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                .rotationEffect(.degrees(-90))
-                .animation(.linear(duration: 0.1), value: progress)
-                .shadow(color: accent.color, radius: 10)
-
-            Image(systemName: "hands.sparkles.fill")
-                .font(.system(size: 50))
-                .foregroundStyle(Spooky.mist)
-                .symbolEffect(.rotate.clockwise.byLayer, options: .repeat(.continuous))
-                .shadow(color: accent.color, radius: 10)
-                .scaleEffect(1.0 + progress * 0.2)
-                .animation(.easeInOut(duration: 0.2), value: progress)
-        }
-        .frame(width: 120, height: 120)
-        .accessibilityHidden(true)
-    }
-}
-
-#if DEBUG
-// Lingkaran hijau yang mengikuti tangan, untuk mengecek tracking di perangkat
-private struct HandDebugView: View {
-    let point: CGPoint?
-
-    var body: some View {
-        // Ruang koordinat sama dengan ARView (mengabaikan safe area)
-        Color.clear
-            .ignoresSafeArea()
-            .overlay(alignment: .topLeading) {
-                if let point {
-                    Circle()
-                        .stroke(.green, lineWidth: 4)
-                        .background(Circle().fill(.green.opacity(0.3)))
-                        .frame(width: 80, height: 80)
-                        .position(point)
-                        .animation(.linear(duration: 0.1), value: point)
-                }
-            }
-            .allowsHitTesting(false)
-    }
-}
-#endif

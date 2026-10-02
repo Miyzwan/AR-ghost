@@ -158,6 +158,26 @@ private struct CreditsView: View {
                 }
             }
             .listRowBackground(Spooky.mist.opacity(0.07))
+
+            // Efek suara cerita (AR2/Sounds)
+            Section("Sound Effects") {
+                Link(destination: URL(string: "https://kenney.nl/assets/category:Audio")!) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(verbatim: "“Interface Sounds, Digital Audio, Impact Sounds, Music Jingles, RPG Audio”")
+                                .font(.spooky(.body, weight: .semibold))
+                                .foregroundStyle(Spooky.mist)
+                            Text("by \("Kenney"), licensed under \("CC0 1.0")")
+                                .font(.footnote)
+                                .foregroundStyle(Spooky.mistDim)
+                        }
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                            .foregroundStyle(Spooky.mistDim)
+                    }
+                }
+            }
+            .listRowBackground(Spooky.mist.opacity(0.07))
         }
         .scrollContentBackground(.hidden)
         .background(SpookyBackground())

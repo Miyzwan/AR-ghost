@@ -11,6 +11,36 @@
         }
       }
     },
+    "%@, %lld of %lld, story complete" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$lld dari %3$lld, cerita selesai"
+          }
+        }
+      }
+    },
+    "%lld of %lld stories complete" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld dari %2$lld cerita selesai"
+          }
+        }
+      }
+    },
+    "*yawn* …Is that tuna I smell? Pinch a little bit for me." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "*menguap* …Apa ini bau tuna? Cubitkan sedikit untukku."
+          }
+        }
+      }
+    },
     "3D Models" : {
       "localizations" : {
         "id" : {
@@ -61,6 +91,26 @@
         }
       }
     },
+    "Abracadabra!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrakadabra!"
+          }
+        }
+      }
+    },
+    "Ah, my mistake. This is my grass-trimming list. Point to the grass that needs trimming." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ah, saya keliru. Ini daftar potong rumput saya. Tunjukkan rumput yang perlu dipotong."
+          }
+        }
+      }
+    },
     "Allow camera access in Settings to summon the ghost." : {
       "localizations" : {
         "id" : {
@@ -71,12 +121,12 @@
         }
       }
     },
-    "Appears above your head" : {
+    "Almost there! Every spell needs a thumbs up to work." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Muncul di atas kepalamu"
+            "value" : "Sedikit lagi! Setiap mantra butuh acungan jempol supaya berhasil."
           }
         }
       }
@@ -111,12 +161,42 @@
         }
       }
     },
+    "ARRR!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ARRR!"
+          }
+        }
+      }
+    },
+    "ARRR! Land ho! Shout \"Arrr!\" with me, matey!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ARRR! Daratan! Teriak \"Arrr!\" bersamaku, kawan!"
+          }
+        }
+      }
+    },
     "BACK TO THE REAL WORLD" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "KEMBALI KE ALAM NYATA"
+          }
+        }
+      }
+    },
+    "Blow a kiss" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirim cium jauh"
           }
         }
       }
@@ -141,6 +221,26 @@
         }
       }
     },
+    "BOO!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BAA!"
+          }
+        }
+      }
+    },
+    "BOSS FIGHT! Punch the boss!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LAWAN BOS! Tinju bosnya!"
+          }
+        }
+      }
+    },
     "by %@, licensed under %@" : {
       "localizations" : {
         "id" : {
@@ -161,12 +261,42 @@
         }
       }
     },
+    "Caught!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketangkap!"
+          }
+        }
+      }
+    },
     "Change his form" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ubah wujudnya"
+          }
+        }
+      }
+    },
+    "Cheese!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cheese!"
+          }
+        }
+      }
+    },
+    "Clap to summon %@" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tepuk tangan untuk memanggil %@"
           }
         }
       }
@@ -181,12 +311,42 @@
         }
       }
     },
+    "COIN!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KOIN!"
+          }
+        }
+      }
+    },
+    "Cover your face" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutup wajahmu"
+          }
+        }
+      }
+    },
     "Credits" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kredit"
+          }
+        }
+      }
+    },
+    "Delicious! Now let's groom together. Stick out your tongue!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enak! Sekarang ayo menjilat bulu bareng. Julurkan lidahmu!"
           }
         }
       }
@@ -211,6 +371,66 @@
         }
       }
     },
+    "Every captain needs a parrot, so I'll be yours! A true pirate winks with one eye." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap kapten butuh burung beo, jadi aku jadi beomu! Bajak laut sejati berkedip dengan satu mata."
+          }
+        }
+      }
+    },
+    "Every ghost asks for a secret hand sign: a thumbs up, a wave, a peace sign… Do it in front of the camera to hear the rest of its story." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiap hantu meminta isyarat tangan rahasia: jempol, lambaian, tanda damai… Lakukan di depan kamera untuk mendengar kelanjutan ceritanya."
+          }
+        }
+      }
+    },
+    "Every ghost asks for a secret move: a smile, a wink, a wave… Do it and the ghost hops to your shoulder, your hand, or your face to tell you more." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiap hantu meminta gerakan rahasia: senyum, kedipan, lambaian… Lakukan, dan hantu akan melompat ke pundak, tangan, atau wajahmu untuk bercerita lebih banyak."
+          }
+        }
+      }
+    },
+    "Fine, you win. Have you seen a little witch flying in circles? Her broom can't turn…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oke, kamu menang. Pernah lihat penyihir cilik yang terbang berputar-putar? Sapunya tidak bisa belok…"
+          }
+        }
+      }
+    },
+    "Friends share secrets. Open your palm and I'll read your fortune line…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teman saling berbagi rahasia. Buka telapak tanganmu, akan kubaca garis nasibmu…"
+          }
+        }
+      }
+    },
+    "Friends!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teman!"
+          }
+        }
+      }
+    },
     "Ghost" : {
       "localizations" : {
         "id" : {
@@ -231,12 +451,162 @@
         }
       }
     },
+    "Give a thumbs up" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acungkan jempol"
+          }
+        }
+      }
+    },
+    "Good evening. Forgive the intrusion. Kindly return my greeting with a nod." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selamat malam. Maaf mengganggu. Mohon balas salam saya dengan anggukan."
+          }
+        }
+      }
+    },
+    "Hehe!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hehe!"
+          }
+        }
+      }
+    },
+    "Hehe… let's play hide and seek. Cover your face and count!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hehe… ayo main petak umpet. Tutup wajahmu dan berhitung!"
+          }
+        }
+      }
+    },
+    "Hello? HELLO? Can anybody see me? Wave if you can!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Halo? HALO? Ada yang bisa melihatku? Lambaikan tangan kalau bisa!"
+          }
+        }
+      }
+    },
+    "Hi hi!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hai hai!"
+          }
+        }
+      }
+    },
+    "Hides around your head, shoulders, and hands" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bersembunyi di sekitar kepala, pundak, dan tanganmu"
+          }
+        }
+      }
+    },
+    "Hmph!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hmph!"
+          }
+        }
+      }
+    },
+    "Hmph. I feel… calm. In the next grave over, there's a ghost who badly wants a hug." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hmph. Aku jadi… tenang. Di kuburan sebelah, ada hantu yang ingin sekali dipeluk."
+          }
+        }
+      }
+    },
     "Hold both hands together in front of the camera until the circle fills up. He might not stay cute..." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Satukan kedua tangan di depan kamera sampai lingkarannya penuh. Dia belum tentu tetap imut..."
+          }
+        }
+      }
+    },
+    "Hug!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peluk!"
+          }
+        }
+      }
+    },
+    "I'm clinging to you! Hug me, touch me with your hand!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aku menempel padamu! Peluk aku, sentuh aku dengan tanganmu!"
+          }
+        }
+      }
+    },
+    "INSERT COIN. Pinch a coin to continue." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MASUKKAN KOIN. Cubit koin untuk lanjut."
+          }
+        }
+      }
+    },
+    "It worked! My first hug ever. My friend Wavy is still waving at people who never wave back…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Berhasil! Pelukan pertamaku. Temanku Wavy masih melambai pada orang-orang yang tak pernah membalas…"
+          }
+        }
+      }
+    },
+    "It worked! The tea became… slightly colder tea. Oh, a very polite guest is knocking…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Berhasil! Tehnya berubah jadi… teh yang sedikit lebih dingin. Oh, ada tamu yang sangat sopan mengetuk pintu…"
+          }
+        }
+      }
+    },
+    "K.O.!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "K.O.!"
           }
         }
       }
@@ -251,6 +621,16 @@
         }
       }
     },
+    "Liar! Prove you're brave. Punch me, if you can!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bohong! Buktikan kamu berani. Tinju aku, kalau bisa!"
+          }
+        }
+      }
+    },
     "Little Witch" : {
       "localizations" : {
         "id" : {
@@ -261,12 +641,32 @@
         }
       }
     },
+    "Make a fist" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kepalkan tangan"
+          }
+        }
+      }
+    },
     "Meet Mister Q" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kenalan dengan Mister Q"
+          }
+        }
+      }
+    },
+    "Missed! I'm right in front of you. BOO! Did I scare you?" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meleset! Aku tepat di depanmu. BAA! Kaget, kan?"
           }
         }
       }
@@ -287,6 +687,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mister Q (Wujud Asli)"
+          }
+        }
+      }
+    },
+    "Mlem!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mlem!"
           }
         }
       }
@@ -331,12 +741,52 @@
         }
       }
     },
+    "Mwah!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muah!"
+          }
+        }
+      }
+    },
+    "My sincere apologies. By the way, a pirate keeps asking where the nearest bathtub is…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mohon maaf yang sebesar-besarnya. Ngomong-ngomong, ada bajak laut yang terus bertanya di mana bak mandi terdekat…"
+          }
+        }
+      }
+    },
     "NEXT" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "LANJUT"
+          }
+        }
+      }
+    },
+    "Nobody has ever hugged me back. Maybe a kiss from afar works?" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belum pernah ada yang membalas pelukanku. Mungkin cium jauh bisa?"
+          }
+        }
+      }
+    },
+    "Nod your head" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anggukkan kepala"
           }
         }
       }
@@ -361,12 +811,102 @@
         }
       }
     },
+    "Now I have a friend! Psst… something furry just fell asleep on top of your head…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sekarang aku punya teman! Psst… ada yang berbulu baru saja tertidur di atas kepalamu…"
+          }
+        }
+      }
+    },
+    "Only people who can see ghosts know the secret signal. Wink at me!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hanya orang yang bisa melihat hantu yang tahu kode rahasianya. Kedipkan matamu!"
+          }
+        }
+      }
+    },
+    "OOF!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ADUH!"
+          }
+        }
+      }
+    },
+    "Ooh, fancy!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ooh, keren!"
+          }
+        }
+      }
+    },
+    "Ooh, that smile tastes sweet! Will you be my friend? Nod if yes." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ooh, senyummu manis sekali! Mau jadi temanku? Angguk kalau mau."
+          }
+        }
+      }
+    },
     "OPEN SETTINGS" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BUKA PENGATURAN"
+          }
+        }
+      }
+    },
+    "Open your mouth wide" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka mulut lebar-lebar"
+          }
+        }
+      }
+    },
+    "Peekaboo!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cilukba!"
+          }
+        }
+      }
+    },
+    "Phew, thank you! Help me cast a spell. Open your mouth wide: ABRACADABRA!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fiuh, terima kasih! Bantu aku merapal mantra. Buka mulutmu lebar-lebar: ABRAKADABRA!"
+          }
+        }
+      }
+    },
+    "Phew…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fiuh…"
           }
         }
       }
@@ -391,6 +931,16 @@
         }
       }
     },
+    "Pinch your fingers" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cubitkan jarimu"
+          }
+        }
+      }
+    },
     "Pixel" : {
       "localizations" : {
         "id" : {
@@ -411,12 +961,52 @@
         }
       }
     },
+    "Play their story" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mainkan ceritanya"
+          }
+        }
+      }
+    },
+    "PLAYER 1 READY? Thumbs up to start!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PLAYER 1 SIAP? Acungkan jempol untuk mulai!"
+          }
+        }
+      }
+    },
     "Point the front camera at your face." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arahkan kamera depan ke wajahmu."
+          }
+        }
+      }
+    },
+    "Point your finger" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tunjuk dengan jarimu"
+          }
+        }
+      }
+    },
+    "Poof!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puf!"
           }
         }
       }
@@ -431,12 +1021,72 @@
         }
       }
     },
-    "Punch him away" : {
+    "Psst!" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pukul dia"
+            "value" : "Psst!"
+          }
+        }
+      }
+    },
+    "Puff your cheeks" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gembungkan pipimu"
+          }
+        }
+      }
+    },
+    "Punch the ghost!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tinju hantunya!"
+          }
+        }
+      }
+    },
+    "Purrfect human. My twin sister Nori hides in the dark. Careful, she loves to play tricks…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manusia yang sempurna. Saudari kembarku, Nori, bersembunyi di kegelapan. Hati-hati, dia suka jahil…"
+          }
+        }
+      }
+    },
+    "Purr…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purr…"
+          }
+        }
+      }
+    },
+    "Raise your eyebrows" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angkat alismu"
+          }
+        }
+      }
+    },
+    "Raise your hand" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angkat tanganmu"
           }
         }
       }
@@ -451,12 +1101,42 @@
         }
       }
     },
+    "Shake your head" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelengkan kepala"
+          }
+        }
+      }
+    },
     "SHARE" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BAGIKAN"
+          }
+        }
+      }
+    },
+    "Show a peace sign" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tunjukkan tanda damai"
+          }
+        }
+      }
+    },
+    "Show an open palm" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tunjukkan telapak terbuka"
           }
         }
       }
@@ -491,6 +1171,36 @@
         }
       }
     },
+    "Smile" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tersenyum"
+          }
+        }
+      }
+    },
+    "Sniff sniff… your aura smells a little sour today. Can you smile for me?" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Endus endus… auramu agak asam hari ini. Mau tersenyum untukku?"
+          }
+        }
+      }
+    },
+    "Snip snip." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kres kres."
+          }
+        }
+      }
+    },
     "Sound & Haptics" : {
       "localizations" : {
         "id" : {
@@ -507,6 +1217,66 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Efek Suara"
+          }
+        }
+      }
+    },
+    "Splendid." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luar biasa."
+          }
+        }
+      }
+    },
+    "Squawk!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kwaak!"
+          }
+        }
+      }
+    },
+    "START!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MULAI!"
+          }
+        }
+      }
+    },
+    "Stay very still" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diam, jangan bergerak"
+          }
+        }
+      }
+    },
+    "Stick out your tongue" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Julurkan lidahmu"
+          }
+        }
+      }
+    },
+    "Story complete!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerita selesai!"
           }
         }
       }
@@ -531,32 +1301,22 @@
         }
       }
     },
-    "Swing your hand quickly in front of the camera to knock him flying." : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ayunkan tanganmu dengan cepat di depan kamera untuk membuatnya terlempar."
-          }
-        }
-      }
-    },
-    "Swing your hand quickly toward the ghost to knock him flying." : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ayunkan tanganmu dengan cepat ke arah hantu untuk membuatnya terlempar."
-          }
-        }
-      }
-    },
     "Take a photo" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ambil foto"
+          }
+        }
+      }
+    },
+    "Thank you." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terima kasih."
           }
         }
       }
@@ -621,6 +1381,26 @@
         }
       }
     },
+    "The real treasure was the crew we made along the way. Hey… do you hear coins clinking?" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harta sesungguhnya adalah awak kapal yang kita temukan di perjalanan. Hei… kamu dengar bunyi koin?"
+          }
+        }
+      }
+    },
+    "The treasure map… it was in your hand all along! Hold it tight!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peta hartanya… ternyata ada di tanganmu! Genggam erat-erat!"
+          }
+        }
+      }
+    },
     "This device doesn't support augmented reality." : {
       "localizations" : {
         "id" : {
@@ -641,6 +1421,36 @@
         }
       }
     },
+    "Tilt your head" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Miringkan kepala"
+          }
+        }
+      }
+    },
+    "Touch the ghost" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sentuh hantunya"
+          }
+        }
+      }
+    },
+    "Treasure!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harta karun!"
+          }
+        }
+      }
+    },
     "Try Again" : {
       "localizations" : {
         "id" : {
@@ -651,12 +1461,32 @@
         }
       }
     },
+    "Tuna!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuna!"
+          }
+        }
+      }
+    },
     "Vibration" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Getaran"
+          }
+        }
+      }
+    },
+    "Wave your hand" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lambaikan tangan"
           }
         }
       }
@@ -681,12 +1511,142 @@
         }
       }
     },
+    "Wheee! My broom can't steer! Point the way, quick!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wiii! Sapuku tidak bisa belok! Tunjukkan arahnya, cepat!"
+          }
+        }
+      }
+    },
+    "WHO MADE MISTER Q SOFT?! Was it YOU?!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SIAPA YANG MEMBUAT MISTER Q LEMBEK?! KAMU, YA?!"
+          }
+        }
+      }
+    },
+    "Whoosh!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wusss!"
+          }
+        }
+      }
+    },
+    "Wink" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kedipkan satu mata"
+          }
+        }
+      }
+    },
+    "YOU CAN SEE ME! Quick, let's take a picture. Peace sign!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KAMU BISA MELIHATKU! Cepat, ayo foto bareng. Tanda damai!"
+          }
+        }
+      }
+    },
+    "You found me?! Catch me, quick, grab me!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamu menemukanku?! Tangkap aku, cepat, genggam aku!"
+          }
+        }
+      }
+    },
+    "YOU WIN! GAME OVER… CONTINUE? Mister Q is waiting back at level 1." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KAMU MENANG! GAME OVER… LANJUT? Mister Q menunggu di level 1."
+          }
+        }
+      }
+    },
+    "Your fortune says… you're not sad at all! Uh-oh. Someone is furious that I turned nice…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Garis nasibmu bilang… kamu sama sekali tidak sedih! Gawat. Ada yang marah besar karena aku jadi baik…"
+          }
+        }
+      }
+    },
     "Your ghost photo" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Foto hantumu"
+          }
+        }
+      }
+    },
+    "Your hand went right through me again… Tilt your head closer, I want to whisper." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanganmu menembusku lagi… Miringkan kepalamu, aku mau berbisik."
+          }
+        }
+      }
+    },
+    "Your name is on my list… Please stay very still while I take measurements." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nama Anda ada di daftar saya… Mohon diam sebentar, saya sedang mengukur."
+          }
+        }
+      }
+    },
+    "Yum!" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nyam!"
+          }
+        }
+      }
+    },
+    "Zzz… purrr… zzz… (Shh, don't wake her up.)" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zzz… grrr… zzz… (Ssst, jangan bangunkan dia.)"
+          }
+        }
+      }
+    },
+    "…Not bad, human. Now puff your cheeks and blow my anger away." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "…Lumayan juga, manusia. Sekarang gembungkan pipimu dan tiup amarahku pergi."
           }
         }
       }

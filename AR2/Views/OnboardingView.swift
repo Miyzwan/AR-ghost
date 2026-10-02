@@ -28,9 +28,9 @@ struct OnboardingView: View {
                     message: "A mischievous ghost is waiting to haunt you. Summon him and he'll rise from behind your head and settle right on top of it."
                 ),
                 Page(
-                    symbol: "hand.raised.fill",
-                    title: "Punch him away",
-                    message: "Swing your hand quickly toward the ghost to knock him flying."
+                    symbol: "text.bubble.fill",
+                    title: "Play their story",
+                    message: "Every ghost asks for a secret move: a smile, a wink, a wave… Do it and the ghost hops to your shoulder, your hand, or your face to tell you more."
                 ),
                 Page(
                     symbol: "hands.sparkles.fill",
@@ -46,9 +46,9 @@ struct OnboardingView: View {
                     message: "A mischievous ghost is waiting to haunt you. Point your camera at the floor or a table and he'll rise right out of it."
                 ),
                 Page(
-                    symbol: "hand.raised.fill",
-                    title: "Punch him away",
-                    message: "Swing your hand quickly in front of the camera to knock him flying."
+                    symbol: "text.bubble.fill",
+                    title: "Play their story",
+                    message: "Every ghost asks for a secret hand sign: a thumbs up, a wave, a peace sign… Do it in front of the camera to hear the rest of its story."
                 ),
                 Page(
                     symbol: "hands.sparkles.fill",

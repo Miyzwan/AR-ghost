@@ -12,6 +12,7 @@ struct HomeView: View {
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage(AppSettings.hapticsEnabled) private var hapticsEnabled = true
+    @AppStorage(AppSettings.completedStories) private var completedStories = ""
     @State private var showSettings = false
     @State private var isGlowing = false
 
@@ -19,6 +20,9 @@ struct HomeView: View {
 
     private var selectedIndex: Int { GhostCatalog.index(ofID: selectedGhostID) }
     private var selectedGhost: Ghost { GhostCatalog.all[selectedIndex] }
+    private var completedIDs: Set<String> { StoryCompletion.ids(in: completedStories) }
+    private var isSelectedComplete: Bool { completedIDs.contains(selectedGhost.id) }
+    private var completedCount: Int { GhostCatalog.all.filter { completedIDs.contains($0.id) }.count }
 
     var body: some View {
         ZStack {
@@ -108,16 +112,29 @@ struct HomeView: View {
             .accessibilityHidden(true)
 
             VStack(spacing: 10) {
-                Text(selectedGhost.name)
-                    .font(.spooky(.headline, weight: .heavy))
-                    .foregroundStyle(Spooky.mist)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.8)
-                    .contentTransition(.opacity)
-                    .frame(maxWidth: .infinity)
+                HStack(spacing: 6) {
+                    Text(selectedGhost.name)
+                        .font(.spooky(.headline, weight: .heavy))
+                        .foregroundStyle(Spooky.mist)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.8)
+                        .contentTransition(.opacity)
 
-                PageDots(count: GhostCatalog.all.count, current: selectedIndex)
+                    // Lencana: cerita hantu ini sudah selesai
+                    if isSelectedComplete {
+                        Image(systemName: "checkmark.seal.fill")
+                            .foregroundStyle(Spooky.pumpkin)
+                            .transition(.scale.combined(with: .opacity))
+                    }
+                }
+                .frame(maxWidth: .infinity)
+
+                PageDots(count: GhostCatalog.all.count, current: selectedIndex, completed: GhostCatalog.all.map { completedIDs.contains($0.id) })
+
+                Text("\(completedCount) of \(GhostCatalog.all.count) stories complete")
+                    .font(.spooky(.caption, weight: .semibold))
+                    .foregroundStyle(Spooky.mistDim)
             }
 
             Button {
@@ -131,7 +148,11 @@ struct HomeView: View {
         // VoiceOver: satu elemen yang bisa digeser naik/turun
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Ghost"))
-        .accessibilityValue(Text("\(String(localized: selectedGhost.name)), \(selectedIndex + 1) of \(GhostCatalog.all.count)"))
+        .accessibilityValue(
+            isSelectedComplete
+                ? Text("\(String(localized: selectedGhost.name)), \(selectedIndex + 1) of \(GhostCatalog.all.count), story complete")
+                : Text("\(String(localized: selectedGhost.name)), \(selectedIndex + 1) of \(GhostCatalog.all.count)")
+        )
         .accessibilityAdjustableAction { direction in
             switch direction {
             case .increment: select(offset: 1)
@@ -162,7 +183,7 @@ struct HomeView: View {
     private var modeChip: some View {
         Label {
             switch mode {
-            case .face: Text("Appears above your head")
+            case .face: Text("Hides around your head, shoulders, and hands")
             case .world: Text("Appears on a floor or table")
             }
         } icon: {
@@ -176,17 +197,18 @@ struct HomeView: View {
     }
 }
 
-/// Titik-titik kecil penanda hantu ke berapa yang dipilih.
+/// Titik-titik kecil penanda hantu ke berapa yang dipilih; hantu yang ceritanya selesai lebih terang.
 private struct PageDots: View {
     let count: Int
     let current: Int
+    let completed: [Bool]
     @Environment(\.spookyAccent) private var accent
 
     var body: some View {
         HStack(spacing: 6) {
             ForEach(0..<count, id: \.self) { index in
                 Capsule()
-                    .fill(index == current ? accent.color : Spooky.mist.opacity(0.3))
+                    .fill(index == current ? accent.color : Spooky.mist.opacity(completed[index] ? 0.8 : 0.3))
                     .frame(width: index == current ? 18 : 6, height: 6)
             }
         }
