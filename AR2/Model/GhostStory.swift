@@ -86,29 +86,30 @@ enum GhostGesture: String, CaseIterable {
         }
     }
 
+    /// Perintah singkat di gelembung cerita: kata kerja yang langsung bisa dilakukan.
     var instruction: LocalizedStringResource {
         switch self {
         case .smile: "Smile"
-        case .wink: "Wink"
-        case .mouthOpen: "Open your mouth wide"
+        case .wink: "Wink one eye"
+        case .mouthOpen: "Open your mouth"
         case .eyebrowRaise: "Raise your eyebrows"
         case .cheekPuff: "Puff your cheeks"
-        case .tongueOut: "Stick out your tongue"
+        case .tongueOut: "Stick your tongue out"
         case .kiss: "Blow a kiss"
         case .nod: "Nod your head"
         case .shakeHead: "Shake your head"
         case .tiltHead: "Tilt your head"
-        case .openPalm: "Show an open palm"
+        case .openPalm: "Open your hand"
         case .fist: "Make a fist"
-        case .peace: "Show a peace sign"
-        case .point: "Point your finger"
-        case .thumbsUp: "Give a thumbs up"
+        case .peace: "Peace sign"
+        case .point: "Point a finger"
+        case .thumbsUp: "Thumbs up"
         case .pinch: "Pinch your fingers"
         case .wave: "Wave your hand"
         case .touchGhost: "Touch the ghost"
         case .hideFace: "Cover your face"
         case .punch: "Punch the ghost!"
-        case .holdStill: "Stay very still"
+        case .holdStill: "Don't move"
         }
     }
 }

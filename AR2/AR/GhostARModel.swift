@@ -47,6 +47,8 @@ final class GhostARModel: NSObject {
     private(set) var isStoryComplete = false
     /// Hantu menunggu di telapak, tetapi tangan pengguna belum terlihat.
     private(set) var needsHand = false
+    /// Kotak hantu dan wajah di layar, untuk menaruh gelembung cerita; `nil` bila hantu tak terlihat.
+    private(set) var screenLayout: ScreenLayout?
     #if DEBUG
     /// Nilai sensor mentah untuk mengkalibrasi ambang gestur di perangkat.
     private(set) var debugText = ""
@@ -55,6 +57,8 @@ final class GhostARModel: NSObject {
 
     private static let visionInterval: TimeInterval = 0.08 // ~12fps, hemat CPU
     private static let smokeLifetime: TimeInterval = 2.0
+    /// Kotak layar diperbarui ~30fps supaya SwiftUI tidak menggambar ulang tiap frame AR.
+    private static let layoutInterval: TimeInterval = 1.0 / 30
     /// Data Vision yang lebih tua dari ini tidak dipakai untuk menempatkan hantu.
     private static let visionStaleness: TimeInterval = 0.5
     /// Seberapa cepat hantu di titik yang dilacak mengejar targetnya per frame.
@@ -69,6 +73,22 @@ final class GhostARModel: NSObject {
     }
 
     /// Posisi, putaran, dan skala titik muncul pada anchor induknya.
+    /// Kotak di layar dalam point, koordinat `ARView` (layar penuh).
+    struct ScreenLayout: Equatable {
+        var ghost: CGRect
+        /// Wajah pengguna (kamera depan) yang tidak boleh tertutup gelembung.
+        var face: CGRect?
+
+        func isClose(to other: ScreenLayout) -> Bool {
+            guard ghost.distance(to: other.ghost) < 0.5 else { return false }
+            switch (face, other.face) {
+            case (nil, nil): return true
+            case let (a?, b?): return a.distance(to: b) < 0.5
+            default: return false
+            }
+        }
+    }
+
     private struct Placement {
         var parent: Entity
         var position: SIMD3<Float>
@@ -115,6 +135,7 @@ final class GhostARModel: NSObject {
     @ObservationIgnored private var lastVisionTime: TimeInterval = 0
     @ObservationIgnored private var handGestureProgress: Double = 0
     @ObservationIgnored private var lastDebugTime: TimeInterval = 0
+    @ObservationIgnored private var lastLayoutTime: TimeInterval = 0
     @ObservationIgnored private var lastPhase: GhostMotion.Phase?
     /// Terakhir kali pengguna mencoba gestur atau hantu mencari perhatian.
     @ObservationIgnored private var lastAttention: TimeInterval = 0
@@ -330,6 +351,10 @@ final class GhostARModel: NSObject {
         self.motion = motion
 
         syncStory(motion: motion)
+        if now - lastLayoutTime >= Self.layoutInterval {
+            lastLayoutTime = now
+            updateScreenLayout(in: arView, ghostVisible: ![.waiting, .hidden].contains(motion.phase))
+        }
 
         if motion.phase != .waiting && motion.phase != .hidden {
             detectHandsIfNeeded(in: arView, at: now)
@@ -889,6 +914,48 @@ final class GhostARModel: NSObject {
         arView.session.currentFrame?.anchors.contains { ($0 as? ARFaceAnchor)?.isTracked == true } ?? false
     }
 
+    // MARK: - Kotak di layar
+
+    private func updateScreenLayout(in arView: ARView, ghostVisible: Bool) {
+        var layout: ScreenLayout?
+        if ghostVisible, let placement, let ghost = ghostScreenRect(placement, in: arView), arView.bounds.intersects(ghost) {
+            layout = ScreenLayout(ghost: ghost, face: faceScreenRect(in: arView))
+        }
+        // Dihaluskan supaya gelembung tidak ikut bergetar bersama pelacakan
+        if var next = layout, let previous = screenLayout {
+            next.ghost = previous.ghost.lerp(to: next.ghost, 0.4)
+            if let face = next.face, let old = previous.face { next.face = old.lerp(to: face, 0.4) }
+            layout = next
+        }
+        // Perubahan di bawah setengah point tidak perlu menggambar ulang SwiftUI
+        if let layout, let previous = screenLayout, layout.isClose(to: previous) { return }
+        if screenLayout != layout { screenLayout = layout }
+    }
+
+    /// Kotak hantu di titiknya (tanpa gerak khas), dari alas sampai puncak kepala hantu.
+    private func ghostScreenRect(_ placement: Placement, in arView: ARView) -> CGRect? {
+        let base = placement.parent.convert(position: placement.position, to: nil)
+        let up = (placement.parent.orientation(relativeTo: nil) * placement.rotation).act([0, 1, 0])
+        let height = mode.ghostHeight * placement.scale
+        guard let bottom = arView.project(base), let top = arView.project(base + up * height) else { return nil }
+        let pixels = hypot(top.x - bottom.x, top.y - bottom.y)
+        // Penyihir terbang memutar jauh ke samping
+        let width = pixels * (activeGhost.style == .orbit ? 2.2 : 1.1)
+        let midX = (top.x + bottom.x) / 2
+        return CGRect(x: midX - width / 2, y: min(top.y, bottom.y), width: width, height: max(abs(top.y - bottom.y), 1))
+    }
+
+    /// Kotak kepala pengguna di layar, dari rambut sampai dagu.
+    private func faceScreenRect(in arView: ARView) -> CGRect? {
+        guard mode == .face, isTargetFound, let anchor else { return nil }
+        let face = anchor.position(relativeTo: nil)
+        let side = arView.cameraTransform.rotation.act([1, 0, 0])
+        guard let center = arView.project(face), let edge = arView.project(face + side * 0.1) else { return nil }
+        // Piksel untuk 10 cm di kedalaman wajah; kepala sekitar 18 × 28 cm
+        let r = hypot(edge.x - center.x, edge.y - center.y)
+        return CGRect(x: center.x - 0.95 * r, y: center.y - 1.6 * r, width: 1.9 * r, height: 2.9 * r)
+    }
+
     private func ghostScreenPoint(in arView: ARView) -> CGPoint? {
         guard let ghostRoot else { return nil }
         return arView.project(ghostRoot.visualBounds(relativeTo: nil).center)
@@ -920,5 +987,21 @@ private extension Entity {
             current = entity.parent
         }
         return false
+    }
+}
+
+private extension CGRect {
+    func lerp(to other: CGRect, _ t: CGFloat) -> CGRect {
+        CGRect(
+            x: minX + (other.minX - minX) * t,
+            y: minY + (other.minY - minY) * t,
+            width: width + (other.width - width) * t,
+            height: height + (other.height - height) * t
+        )
+    }
+
+    /// Selisih terbesar antar-tepi, dalam point.
+    func distance(to other: CGRect) -> CGFloat {
+        max(abs(minX - other.minX), abs(minY - other.minY), abs(maxX - other.maxX), abs(maxY - other.maxY))
     }
 }

@@ -20,6 +20,17 @@ struct GhostStoryCatalogTests {
         #expect(Set(codes).count == codes.count)
     }
 
+    /// Kalimat harus muat di gelembung kecil di atas hantu.
+    @Test func linesAreShortEnoughForTheBubble() {
+        for ghost in GhostCatalog.all {
+            let lines = ghost.story.steps.map(\.line) + [ghost.story.finale]
+            for line in lines {
+                let text = String(localized: line)
+                #expect(text.count <= 72, "\(ghost.id): \(text)")
+            }
+        }
+    }
+
     @Test func spotChangesBetweenSteps() {
         for ghost in GhostCatalog.all {
             let spots = ghost.story.steps.map(\.spot)

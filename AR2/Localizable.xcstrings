@@ -31,12 +31,12 @@
         }
       }
     },
-    "*yawn* …Is that tuna I smell? Pinch a little bit for me." : {
+    "*yawn* …Is that tuna? Just a pinch?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "*menguap* …Apa ini bau tuna? Cubitkan sedikit untukku."
+            "value" : "*menguap* …Bau tuna? Sejumput saja?"
           }
         }
       }
@@ -47,6 +47,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Model 3D"
+          }
+        }
+      }
+    },
+    "A friend at last! Psst… a cat just fell asleep on your head." : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akhirnya punya teman! Psst… ada kucing tertidur di kepalamu."
           }
         }
       }
@@ -101,12 +111,12 @@
         }
       }
     },
-    "Ah, my mistake. This is my grass-trimming list. Point to the grass that needs trimming." : {
+    "Ah, wrong list. It's for lawn trimming. Which grass?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ah, saya keliru. Ini daftar potong rumput saya. Tunjukkan rumput yang perlu dipotong."
+            "value" : "Ah, salah daftar. Ini untuk potong rumput. Rumput yang mana?"
           }
         }
       }
@@ -121,12 +131,12 @@
         }
       }
     },
-    "Almost there! Every spell needs a thumbs up to work." : {
+    "Almost! Every spell needs your approval." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sedikit lagi! Setiap mantra butuh acungan jempol supaya berhasil."
+            "value" : "Hampir! Setiap mantra butuh restumu."
           }
         }
       }
@@ -171,12 +181,12 @@
         }
       }
     },
-    "ARRR! Land ho! Shout \"Arrr!\" with me, matey!" : {
+    "ARRR! Land ho! Shout with me, matey!" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ARRR! Daratan! Teriak \"Arrr!\" bersamaku, kawan!"
+            "value" : "ARRR! Daratan! Teriak bersamaku, kawan!"
           }
         }
       }
@@ -231,12 +241,12 @@
         }
       }
     },
-    "BOSS FIGHT! Punch the boss!" : {
+    "BOSS FIGHT!" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "LAWAN BOS! Tinju bosnya!"
+            "value" : "LAWAN BOS!"
           }
         }
       }
@@ -291,12 +301,12 @@
         }
       }
     },
-    "Clap to summon %@" : {
+    "Clap to meet %@" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tepuk tangan untuk memanggil %@"
+            "value" : "Tepuk tangan, temui %@"
           }
         }
       }
@@ -341,12 +351,12 @@
         }
       }
     },
-    "Delicious! Now let's groom together. Stick out your tongue!" : {
+    "Delicious! Let's groom together." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enak! Sekarang ayo menjilat bulu bareng. Julurkan lidahmu!"
+            "value" : "Enak! Ayo dandan bareng."
           }
         }
       }
@@ -361,22 +371,22 @@
         }
       }
     },
+    "Don't move" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jangan bergerak"
+          }
+        }
+      }
+    },
     "Done" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Selesai"
-          }
-        }
-      }
-    },
-    "Every captain needs a parrot, so I'll be yours! A true pirate winks with one eye." : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Setiap kapten butuh burung beo, jadi aku jadi beomu! Bajak laut sejati berkedip dengan satu mata."
           }
         }
       }
@@ -401,22 +411,22 @@
         }
       }
     },
-    "Fine, you win. Have you seen a little witch flying in circles? Her broom can't turn…" : {
+    "Fine, you win. Seen a little witch whose broom can't turn?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oke, kamu menang. Pernah lihat penyihir cilik yang terbang berputar-putar? Sapunya tidak bisa belok…"
+            "value" : "Oke, kamu menang. Lihat penyihir cilik yang sapunya tak bisa belok?"
           }
         }
       }
     },
-    "Friends share secrets. Open your palm and I'll read your fortune line…" : {
+    "Friends share secrets. Let me read your palm…" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Teman saling berbagi rahasia. Buka telapak tanganmu, akan kubaca garis nasibmu…"
+            "value" : "Teman berbagi rahasia. Biar kubaca telapakmu…"
           }
         }
       }
@@ -451,22 +461,12 @@
         }
       }
     },
-    "Give a thumbs up" : {
+    "Good evening. Forgive the intrusion. Shall we greet?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acungkan jempol"
-          }
-        }
-      }
-    },
-    "Good evening. Forgive the intrusion. Kindly return my greeting with a nod." : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Selamat malam. Maaf mengganggu. Mohon balas salam saya dengan anggukan."
+            "value" : "Selamat malam. Maaf mengganggu. Boleh kita bersalam?"
           }
         }
       }
@@ -481,22 +481,22 @@
         }
       }
     },
-    "Hehe… let's play hide and seek. Cover your face and count!" : {
+    "Hehe… hide and seek! You count first." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hehe… ayo main petak umpet. Tutup wajahmu dan berhitung!"
+            "value" : "Hehe… petak umpet! Kamu jaga duluan."
           }
         }
       }
     },
-    "Hello? HELLO? Can anybody see me? Wave if you can!" : {
+    "Hello? HELLO? Can anybody see me?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Halo? HALO? Ada yang bisa melihatku? Lambaikan tangan kalau bisa!"
+            "value" : "Halo? HALO? Ada yang bisa melihatku?"
           }
         }
       }
@@ -531,12 +531,12 @@
         }
       }
     },
-    "Hmph. I feel… calm. In the next grave over, there's a ghost who badly wants a hug." : {
+    "Hmph… I'm calm now. In the next grave, a ghost needs a hug." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hmph. Aku jadi… tenang. Di kuburan sebelah, ada hantu yang ingin sekali dipeluk."
+            "value" : "Hmph… aku tenang. Di kuburan sebelah, ada hantu yang butuh pelukan."
           }
         }
       }
@@ -561,42 +561,42 @@
         }
       }
     },
-    "I'm clinging to you! Hug me, touch me with your hand!" : {
+    "I'm clinging to you! Hug me?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aku menempel padamu! Peluk aku, sentuh aku dengan tanganmu!"
+            "value" : "Aku menempel padamu! Peluk aku?"
           }
         }
       }
     },
-    "INSERT COIN. Pinch a coin to continue." : {
+    "I'm your parrot now! Know the pirate signal?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MASUKKAN KOIN. Cubit koin untuk lanjut."
+            "value" : "Sekarang aku beomu! Tahu kode bajak laut?"
           }
         }
       }
     },
-    "It worked! My first hug ever. My friend Wavy is still waving at people who never wave back…" : {
+    "INSERT COIN TO CONTINUE." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Berhasil! Pelukan pertamaku. Temanku Wavy masih melambai pada orang-orang yang tak pernah membalas…"
+            "value" : "MASUKKAN KOIN UNTUK LANJUT."
           }
         }
       }
     },
-    "It worked! The tea became… slightly colder tea. Oh, a very polite guest is knocking…" : {
+    "It worked! The tea is… slightly colder. A polite guest is knocking…" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Berhasil! Tehnya berubah jadi… teh yang sedikit lebih dingin. Oh, ada tamu yang sangat sopan mengetuk pintu…"
+            "value" : "Berhasil! Tehnya jadi… sedikit lebih dingin. Ada tamu sopan mengetuk…"
           }
         }
       }
@@ -621,12 +621,12 @@
         }
       }
     },
-    "Liar! Prove you're brave. Punch me, if you can!" : {
+    "Liar! Prove you're brave!" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bohong! Buktikan kamu berani. Tinju aku, kalau bisa!"
+            "value" : "Bohong! Buktikan kamu berani!"
           }
         }
       }
@@ -661,12 +661,12 @@
         }
       }
     },
-    "Missed! I'm right in front of you. BOO! Did I scare you?" : {
+    "Missed! I'm right here. BOO! Scared?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Meleset! Aku tepat di depanmu. BAA! Kaget, kan?"
+            "value" : "Luput! Aku di sini. BAA! Kaget?"
           }
         }
       }
@@ -751,12 +751,22 @@
         }
       }
     },
-    "My sincere apologies. By the way, a pirate keeps asking where the nearest bathtub is…" : {
+    "My apologies. A pirate keeps asking for the nearest bathtub…" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mohon maaf yang sebesar-besarnya. Ngomong-ngomong, ada bajak laut yang terus bertanya di mana bak mandi terdekat…"
+            "value" : "Mohon maaf. Ada bajak laut yang terus mencari bak mandi…"
+          }
+        }
+      }
+    },
+    "My first hug ever! My friend Wavy still waves at no one…" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pelukan pertamaku! Temanku Wavy masih melambai ke orang yang tak membalas…"
           }
         }
       }
@@ -771,12 +781,22 @@
         }
       }
     },
-    "Nobody has ever hugged me back. Maybe a kiss from afar works?" : {
+    "No sadness in your future! But someone is FURIOUS I turned nice…" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Belum pernah ada yang membalas pelukanku. Mungkin cium jauh bisa?"
+            "value" : "Masa depanmu tidak sedih! Tapi ada yang MARAH aku jadi baik…"
+          }
+        }
+      }
+    },
+    "Nobody ever hugs me back. A kiss from afar?" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tak ada yang pernah memelukku. Cium dari jauh?"
           }
         }
       }
@@ -811,22 +831,12 @@
         }
       }
     },
-    "Now I have a friend! Psst… something furry just fell asleep on top of your head…" : {
+    "Only ghost-seers know the secret signal…" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sekarang aku punya teman! Psst… ada yang berbulu baru saja tertidur di atas kepalamu…"
-          }
-        }
-      }
-    },
-    "Only people who can see ghosts know the secret signal. Wink at me!" : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hanya orang yang bisa melihat hantu yang tahu kode rahasianya. Kedipkan matamu!"
+            "value" : "Hanya yang bisa melihat hantu tahu kode rahasianya…"
           }
         }
       }
@@ -851,16 +861,6 @@
         }
       }
     },
-    "Ooh, that smile tastes sweet! Will you be my friend? Nod if yes." : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ooh, senyummu manis sekali! Mau jadi temanku? Angguk kalau mau."
-          }
-        }
-      }
-    },
     "OPEN SETTINGS" : {
       "localizations" : {
         "id" : {
@@ -871,12 +871,32 @@
         }
       }
     },
-    "Open your mouth wide" : {
+    "Open your hand" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buka mulut lebar-lebar"
+            "value" : "Buka telapak tangan"
+          }
+        }
+      }
+    },
+    "Open your mouth" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka mulutmu"
+          }
+        }
+      }
+    },
+    "Peace sign" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanda damai"
           }
         }
       }
@@ -891,12 +911,12 @@
         }
       }
     },
-    "Phew, thank you! Help me cast a spell. Open your mouth wide: ABRACADABRA!" : {
+    "Phew! Now shout the spell with me!" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fiuh, terima kasih! Bantu aku merapal mantra. Buka mulutmu lebar-lebar: ABRAKADABRA!"
+            "value" : "Fiuh! Sekarang teriakkan mantranya bersamaku!"
           }
         }
       }
@@ -971,12 +991,22 @@
         }
       }
     },
-    "PLAYER 1 READY? Thumbs up to start!" : {
+    "PLAYER 1 READY?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PLAYER 1 SIAP? Acungkan jempol untuk mulai!"
+            "value" : "PEMAIN 1 SIAP?"
+          }
+        }
+      }
+    },
+    "Point a finger" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tunjuk dengan jari"
           }
         }
       }
@@ -987,16 +1017,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arahkan kamera depan ke wajahmu."
-          }
-        }
-      }
-    },
-    "Point your finger" : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tunjuk dengan jarimu"
           }
         }
       }
@@ -1051,12 +1071,12 @@
         }
       }
     },
-    "Purrfect human. My twin sister Nori hides in the dark. Careful, she loves to play tricks…" : {
+    "Purrfect human. My twin Nori hides in the dark… she loves tricks." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manusia yang sempurna. Saudari kembarku, Nori, bersembunyi di kegelapan. Hati-hati, dia suka jahil…"
+            "value" : "Manusia sempurna. Kembaranku Nori sembunyi di gelap… dia suka jahil."
           }
         }
       }
@@ -1121,26 +1141,6 @@
         }
       }
     },
-    "Show a peace sign" : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tunjukkan tanda damai"
-          }
-        }
-      }
-    },
-    "Show an open palm" : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tunjukkan telapak terbuka"
-          }
-        }
-      }
-    },
     "Show Tutorial" : {
       "localizations" : {
         "id" : {
@@ -1181,12 +1181,12 @@
         }
       }
     },
-    "Sniff sniff… your aura smells a little sour today. Can you smile for me?" : {
+    "Sniff… your aura smells sour. Cheer up?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Endus endus… auramu agak asam hari ini. Mau tersenyum untukku?"
+            "value" : "Endus… auramu bau asam. Ayo ceria?"
           }
         }
       }
@@ -1251,17 +1251,7 @@
         }
       }
     },
-    "Stay very still" : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diam, jangan bergerak"
-          }
-        }
-      }
-    },
-    "Stick out your tongue" : {
+    "Stick your tongue out" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -1297,6 +1287,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Memanggil hantu…"
+          }
+        }
+      }
+    },
+    "Sweet! Will you be my friend?" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manis! Mau jadi temanku?"
           }
         }
       }
@@ -1381,22 +1381,22 @@
         }
       }
     },
-    "The real treasure was the crew we made along the way. Hey… do you hear coins clinking?" : {
+    "The real treasure was the crew. Hey… hear coins clinking?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Harta sesungguhnya adalah awak kapal yang kita temukan di perjalanan. Hei… kamu dengar bunyi koin?"
+            "value" : "Harta sejati adalah awak kapal. Eh… dengar bunyi koin?"
           }
         }
       }
     },
-    "The treasure map… it was in your hand all along! Hold it tight!" : {
+    "The treasure map was in your hand all along! Hold tight!" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peta hartanya… ternyata ada di tanganmu! Genggam erat-erat!"
+            "value" : "Peta hartanya ada di tanganmu! Genggam erat!"
           }
         }
       }
@@ -1417,6 +1417,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beginilah wujud asli Mister Q saat sedang marah. Cepat tepuk tangan lagi, siapa tahu dia kembali imut..."
+          }
+        }
+      }
+    },
+    "Thumbs up" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acungkan jempol"
           }
         }
       }
@@ -1511,12 +1521,12 @@
         }
       }
     },
-    "Wheee! My broom can't steer! Point the way, quick!" : {
+    "Wheee! My broom can't steer! Which way?" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wiii! Sapuku tidak bisa belok! Tunjukkan arahnya, cepat!"
+            "value" : "Wiii! Sapuku tak bisa belok! Ke mana?"
           }
         }
       }
@@ -1526,7 +1536,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SIAPA YANG MEMBUAT MISTER Q LEMBEK?! KAMU, YA?!"
+            "value" : "SIAPA YANG MEMBUAT MISTER Q LEMBEK?! KAMU?!"
           }
         }
       }
@@ -1541,7 +1551,7 @@
         }
       }
     },
-    "Wink" : {
+    "Wink one eye" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -1551,42 +1561,32 @@
         }
       }
     },
-    "YOU CAN SEE ME! Quick, let's take a picture. Peace sign!" : {
+    "YOU CAN SEE ME! Quick, a selfie!" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KAMU BISA MELIHATKU! Cepat, ayo foto bareng. Tanda damai!"
+            "value" : "KAMU BISA MELIHATKU! Cepat, swafoto!"
           }
         }
       }
     },
-    "You found me?! Catch me, quick, grab me!" : {
+    "You found me?! Catch me, quick!" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kamu menemukanku?! Tangkap aku, cepat, genggam aku!"
+            "value" : "Ketahuan?! Tangkap aku, cepat!"
           }
         }
       }
     },
-    "YOU WIN! GAME OVER… CONTINUE? Mister Q is waiting back at level 1." : {
+    "YOU WIN! CONTINUE? Mister Q waits at level 1." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KAMU MENANG! GAME OVER… LANJUT? Mister Q menunggu di level 1."
-          }
-        }
-      }
-    },
-    "Your fortune says… you're not sad at all! Uh-oh. Someone is furious that I turned nice…" : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Garis nasibmu bilang… kamu sama sekali tidak sedih! Gawat. Ada yang marah besar karena aku jadi baik…"
+            "value" : "KAMU MENANG! LANJUT? Mister Q menunggu di level 1."
           }
         }
       }
@@ -1601,22 +1601,22 @@
         }
       }
     },
-    "Your hand went right through me again… Tilt your head closer, I want to whisper." : {
+    "Your hand went through me… Come closer, I'll whisper." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tanganmu menembusku lagi… Miringkan kepalamu, aku mau berbisik."
+            "value" : "Tanganmu tembus… Mendekatlah, aku mau berbisik."
           }
         }
       }
     },
-    "Your name is on my list… Please stay very still while I take measurements." : {
+    "Your name is on my list… I must take your measurements." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nama Anda ada di daftar saya… Mohon diam sebentar, saya sedang mengukur."
+            "value" : "Nama Anda ada di daftar saya… Saya harus mengukur Anda."
           }
         }
       }
@@ -1631,22 +1631,22 @@
         }
       }
     },
-    "Zzz… purrr… zzz… (Shh, don't wake her up.)" : {
+    "Zzz… purrr… (Shh, don't wake her.)" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zzz… grrr… zzz… (Ssst, jangan bangunkan dia.)"
+            "value" : "Zzz… purrr… (Sst, jangan bangunkan dia.)"
           }
         }
       }
     },
-    "…Not bad, human. Now puff your cheeks and blow my anger away." : {
+    "…Not bad. Now blow my anger away." : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "…Lumayan juga, manusia. Sekarang gembungkan pipimu dan tiup amarahku pergi."
+            "value" : "…Lumayan. Sekarang tiup amarahku pergi."
           }
         }
       }

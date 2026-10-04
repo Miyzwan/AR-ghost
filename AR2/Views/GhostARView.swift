@@ -33,22 +33,19 @@ struct GhostARView: View {
 
             SpookyVignetteView(accent: accent)
 
-            if model.clapProgress > 0 {
-                GestureProgressRing(progress: model.clapProgress, symbol: "hands.clap.fill")
-                    .transition(.scale.combined(with: .opacity))
-            } else if model.gestureProgress > 0, let gesture = model.storyGesture {
-                GestureProgressRing(progress: model.gestureProgress, symbol: gesture.symbol)
-                    .transition(.scale.combined(with: .opacity))
+            // Gelembung cerita di dekat hantu, tidak menutupi hantu maupun wajah pengguna
+            if isBubbleVisible {
+                StoryBubbleLayer(model: model, key: "\(model.activeGhost.id)-\(model.storyStepIndex)-\(model.isStoryComplete)") {
+                    storyBubble
+                }
+                .transition(.opacity)
             }
 
             // Seruan saat gestur berhasil, di atas hantu
             if isCheerVisible, let cheer = model.cheer {
-                CheerPopView(text: cheer)
+                CheerLayer(model: model, text: cheer)
                     .id(model.storySuccessCount)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .padding(.top, 140)
                     .transition(.scale(scale: 0.2).combined(with: .opacity))
-                    .allowsHitTesting(false)
             }
 
             if let confettiStart {
@@ -66,9 +63,11 @@ struct GhostARView: View {
                 if model.showGhostInfo {
                     GhostInfoCard(ghost: model.activeGhost)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
-                } else if model.status == .running && model.isStoryVisible {
-                    storyCard
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                } else if model.clapProgress > 0 && !model.isStoryComplete {
+                    // Di bawah, supaya tidak menutupi wajah
+                    GestureProgressRing(progress: model.clapProgress, symbol: "hands.clap.fill")
+                        .scaleEffect(0.7)
+                        .transition(.scale.combined(with: .opacity))
                 }
 
                 controls
@@ -85,7 +84,6 @@ struct GhostARView: View {
         .environment(\.spookyAccent, accent)
         .animation(.spring(), value: model.showGhostInfo)
         .animation(.easeInOut(duration: 0.2), value: model.clapProgress > 0)
-        .animation(.easeInOut(duration: 0.2), value: model.gestureProgress > 0)
         .animation(.spring(), value: model.isStoryVisible)
         .animation(.spring(), value: model.storyStepIndex)
         .animation(.spring(), value: model.isAwaitingGesture)
@@ -136,19 +134,27 @@ struct GhostARView: View {
         capturedPhoto = CapturedPhoto(image: PhotoComposer.compose(snapshot, accent: accent))
     }
 
-    // --- Cerita hantu: kalimat dan petunjuk gestur, atau penutup ---
+    /// Gelembung hanya saat hantu menunggu gestur atau cerita selesai; saat hantu bereaksi
+    /// atau pindah titik, seruan dan asap yang tampil.
+    private var isBubbleVisible: Bool {
+        model.status == .running && model.isStoryVisible && !model.showGhostInfo
+            && (model.isStoryComplete || model.storyGesture != nil)
+    }
+
+    // --- Cerita hantu: kalimat dan perintah gestur, atau penutup ---
     @ViewBuilder
-    private var storyCard: some View {
+    private var storyBubble: some View {
         if model.isStoryComplete {
-            StoryFinaleView(line: model.storyLine, nextGhost: model.nextGhost)
-        } else {
+            StoryFinaleView(line: model.storyLine, nextGhost: model.nextGhost, clapProgress: model.clapProgress)
+        } else if let gesture = model.storyGesture {
             StoryCaptionView(
                 ghost: model.activeGhost,
                 line: model.storyLine,
-                gesture: model.storyGesture,
+                gesture: gesture,
                 step: model.storyStepIndex,
                 stepCount: model.storyStepCount,
                 needsHand: model.needsHand,
+                progress: model.gestureProgress,
                 nudgeCount: model.nudgeCount
             )
         }
